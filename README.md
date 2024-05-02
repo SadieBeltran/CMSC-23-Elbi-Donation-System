@@ -17,3 +17,20 @@ insert short description here
 ## Installation Guide
 
 ## How To Use the App
+
+## How to Use Git + Reminders
+### Set Up
+1) Create a fork to this repo
+2) Clone the fork you created to your PC
+
+### Creating Pull Requests
+1) Sync your fork's main branch to the main repo
+2) Create a branch in your local device
+3) Add your modifications
+4) (When ready to create PR) Commit your work
+5) Sync main branch on github.com
+6) (On your local device) Go to main branch and fetch new updates
+7) Go to your work branch and `git merge main`
+8) Resolve conflicts
+9) Once conflicts are resolved, push to repo
+10) You can now create a pull request
