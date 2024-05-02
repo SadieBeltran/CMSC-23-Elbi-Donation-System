@@ -1,16 +1,19 @@
 # elbi_donation_system
+insert short description here
 
-A new Flutter project.
+## Members
+- Adormeo, Ryan Andrew
+- Beltran, Elysse Samantha T.
+- Corrales, Ralph Jason
+- Santos, John Roy
 
-## Getting Started
+## Links
+[Task Tracker](https://docs.google.com/spreadsheets/d/1QcLXBwG9vXEOTRvD_NCEE5jQwtuiBYbJFnH1--D99fk/edit?usp=sharing)
+[Project Specs](https://drive.google.com/file/d/1kJM1KjXa6PcbKFfncmBxWbhX-fP6sSGq/view)
+[Repo](https://github.com/SadieBeltran/CMSC-23-Elbi-Donation-System)
 
-This project is a starting point for a Flutter application.
+## Project Description
 
-A few resources to get you started if this is your first Flutter project:
+## Installation Guide
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## How To Use the App
