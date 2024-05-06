@@ -2,7 +2,7 @@
 import 'package:elbi_donation_system/data_models/organization.dart';
 
 // dummy list of organizations
-final List<Organization> dummyOrganization = [
+final List<Organization> dummyOrganizations = [
   Organization(
     name: 'Pastor Agila',
     username: 'pastor_agila',
