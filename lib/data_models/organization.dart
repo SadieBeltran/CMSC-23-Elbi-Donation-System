@@ -1,6 +1,11 @@
+import 'package:uuid/uuid.dart';
+
+// utility object that generates unique id
+const uuid = Uuid();
 class Organization {
   // constructor
   Organization({
+    this.id,
     required this.name,
     required this.username,
     required this.password,
@@ -9,9 +14,13 @@ class Organization {
     required this.organizationName,
     required this.proofsOfLegitimacy,
     required this.orgImagePath,
-  });
+  }) {
+    // if the value of id is null, then the app will auto fill the id field
+    id = id ?? uuid.v4();
+  }
 
   // properties
+  String? id;
   final String name;
   final String username;
   final String password;
