@@ -1,3 +1,4 @@
+import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 // data model
@@ -18,6 +19,7 @@ class DonateScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Donate'),
       ),
+      drawer: const DrawerWidget(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,8 +66,6 @@ class DonateScreen extends StatelessWidget {
                             color: Colors.black,
                           ),
                         ),
-
-
                       ],
                     ),
                   ),
