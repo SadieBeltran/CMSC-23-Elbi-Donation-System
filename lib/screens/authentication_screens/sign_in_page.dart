@@ -23,6 +23,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(),
         drawer: const DrawerWidget(),
         body: SingleChildScrollView(
             child: Container(
