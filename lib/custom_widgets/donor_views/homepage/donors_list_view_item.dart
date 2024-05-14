@@ -30,7 +30,7 @@ class DonorsListViewItem extends StatelessWidget {
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
           trailing: const Icon(Icons.arrow_forward),
