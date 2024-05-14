@@ -4,6 +4,7 @@
   
   Notes: Stole this from week 9 uwu.
  */
+import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:flutter/material.dart';
 
 class SignInPage extends StatefulWidget {
@@ -22,26 +23,27 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: const DrawerWidget(),
         body: SingleChildScrollView(
             child: Container(
-      margin: const EdgeInsets.symmetric(
-        vertical: 100,
-        horizontal: 30,
-      ),
-      child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              heading,
-              emailField,
-              passwordField,
-              showSignInErrorMessage ? signInErrorMessage : Container(),
-              submitButton,
-              signUpButton
-            ],
-          )),
-    )));
+          margin: const EdgeInsets.symmetric(
+            vertical: 100,
+            horizontal: 30,
+          ),
+          child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  heading,
+                  emailField,
+                  passwordField,
+                  showSignInErrorMessage ? signInErrorMessage : Container(),
+                  submitButton,
+                  signUpButton
+                ],
+              )),
+        )));
   }
 
   Widget get heading => const Padding(

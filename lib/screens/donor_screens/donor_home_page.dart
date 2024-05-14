@@ -1,4 +1,5 @@
 import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view.dart';
+import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // data model
@@ -47,6 +48,7 @@ class DonorHomePage extends ConsumerWidget {
           ),
         ],
       ),
+      drawer: const DrawerWidget(),
       body: bodyContent,
     );
   }

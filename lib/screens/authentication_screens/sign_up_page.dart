@@ -4,6 +4,7 @@
 
   Notes: Will need to establish a cloud firestore db in order to record this. Currently has no backend.
  */
+import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:flutter/material.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -32,6 +33,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(),
+        drawer: const DrawerWidget(),
         body: SingleChildScrollView(
           child: Container(
               margin: const EdgeInsets.all(30),
