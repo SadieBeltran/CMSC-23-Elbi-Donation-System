@@ -13,6 +13,13 @@ class DrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
         child: ListView(padding: EdgeInsets.zero, children: <Widget>[
+      const DrawerHeader(
+        decoration: BoxDecoration(color: Colors.white),
+        child: Text(
+          "Elbi Donation System",
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
       ListTile(
           title: const Text("Sign In"),
           onTap: () {
