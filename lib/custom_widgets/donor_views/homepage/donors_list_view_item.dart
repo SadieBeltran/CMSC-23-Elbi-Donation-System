@@ -22,7 +22,7 @@ class DonorsListViewItem extends StatelessWidget {
         elevation: 2,
         child: ListTile(
           title: Text(
-            donor.name,
+            "${donor.firstName} ${donor.lastName}",
             textAlign: TextAlign.start,
             softWrap: true,
             overflow: TextOverflow

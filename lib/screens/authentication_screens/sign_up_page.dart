@@ -4,8 +4,12 @@
 
   Notes: Will need to establish a cloud firestore db in order to record this. Currently has no backend.
  */
+import 'package:elbi_donation_system/data_models/donor.dart';
+import 'package:elbi_donation_system/providers/auth_provider.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../providers/donor_provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -20,7 +24,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
 // for the data that Form will record
   String? email;
-  Map<String, String?> name = {'firstName': "", 'lastName': ""};
+  // Map<String, String?> name = {'firstName': "", 'lastName': ""};
+  String? firstName;
+  String? lastName;
   String? userName;
   String? password;
   List<String>? addresses;
@@ -113,7 +119,8 @@ class _SignUpPageState extends State<SignUpPage> {
               border: OutlineInputBorder(),
               label: Text("First Name"),
               hintText: "Enter your First Name"),
-          onSaved: (value) => setState(() => name['firstName'] = value),
+          onSaved: (value) =>
+              setState(() => /*name['firstName']*/ firstName = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return "First Name must not be empty";
@@ -130,7 +137,8 @@ class _SignUpPageState extends State<SignUpPage> {
               border: OutlineInputBorder(),
               label: Text("Last Name"),
               hintText: "Enter your last name"),
-          onSaved: (value) => setState(() => name['lastName'] = value),
+          onSaved: (value) =>
+              setState(() => /*name['lastName']*/ lastName = value),
           validator: (value) {
             if (value == null || value.isEmpty) {
               return "last name must not be empty";
@@ -141,12 +149,49 @@ class _SignUpPageState extends State<SignUpPage> {
       );
 
 // might want to change it to <dropdown> <number field> for convenience
-  Widget get contactNum => textFormFieldGenerator(
-      RegExp(r"^(\+639|09)\d{9}$"),
-      "Contact Number",
-      "09123456789",
-      "must either start with 09 or +639 and end with 9 digits",
-      contactNo);
+  // Widget get contactNum => textFormFieldGenerator(
+  //     RegExp(r"^(\+639|09)\d{9}$"),
+  //     "Contact Number",
+  //     "09123456789",
+  //     "must either start with 09 or +639 and end with 9 digits",
+  //     contactNo);
+
+  Widget get contactNum => Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: TextFormField(
+          decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              label: Text("Contact No"),
+              hintText: "Enter your contactNo "),
+          onSaved: (value) =>
+              setState(() => /*name['lastName']*/ contactNo = value),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "last name must not be empty";
+            }
+            return null;
+          },
+        ),
+      );
+
+  Widget get address => Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: TextFormField(
+          decoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              label: Text('Address'),
+              hintText: "Insert organization name here"),
+          onSaved: (value) => setState(() => addresses?.add(value!)),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "Address must not be empty";
+            } else if (RegExp(r"^[^\n]{0,79}$").hasMatch(value)) {
+              return "Address must not contain new lines and must not exceed 79 characters!";
+            }
+            return null;
+          },
+        ),
+      );
 
   Widget get orgName => textFormFieldGenerator(
       RegExp(r"^[^\n]{0,79}$"),
@@ -157,9 +202,23 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Widget get submitButton => ElevatedButton(
       onPressed: () async {
-        // if (_formKey.currentState!.validate()) {
-        //   _formKey.currentState!.save();
+        if (_formKey.currentState!.validate()) {
+          _formKey.currentState!.save();
+          await context
+              .read<UserAuthProvider>()
+              .authService
+              .signUp(email!, password!);
 
+          Donor newDonor = Donor(
+              id: context.read<UserAuthProvider>().uid,
+              firstName: firstName!,
+              lastName: lastName!,
+              username: email!,
+              // addresses: addresses!,
+              contactNumber: contactNo!);
+          print(newDonor);
+          await context.read<DonorListProvider>().addDonor(newDonor);
+        }
         //   // check if the widget hasn't been disposed of after an asynchronous action
         //   if (mounted) Navigator.pop(context); //go back to the signin page?
         // }
