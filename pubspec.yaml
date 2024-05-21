@@ -38,6 +38,8 @@ dependencies:
   flutter_riverpod: ^2.5.1
   uuid: ^4.4.0
   google_fonts: ^6.2.1
+  firebase_core: ^2.31.0
+  firebase_auth: ^4.19.5
 
 dev_dependencies:
   flutter_test:
