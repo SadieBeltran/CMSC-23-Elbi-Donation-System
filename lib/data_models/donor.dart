@@ -1,47 +1,52 @@
 import 'dart:convert';
 
 import 'package:uuid/uuid.dart';
+import 'app_user.dart';
 
 // utility object that generates unique id
 const uuid = Uuid();
 
-class Donor {
+class Donor extends AppUser {
+  // properties
+  String? uid;
   // constructor
   Donor({
-    this.id,
+    this.uid,
     // required this.name,
-    required this.firstName,
-    required this.lastName,
-    required this.username,
+    required super.firstName,
+    required super.lastName,
+    required super.userName,
+    super.userType,
     // required this.password,
     // required this.addresses,
-    required this.contactNumber,
+    required super.contactNumber,
+    required super.email,
   }) {
     // if the value of id is null, then the app will auto fill the id field
-    id = id ?? uuid.v4();
+    uid = uid ?? uuid.v4();
+    super.userType = 0;
   }
 
-  // properties
-  String? id;
-
-  // properties
-  // final Map<String, String> name;
-  final String firstName;
-  final String lastName;
-  final String username;
-  // final String password;
-  // final List<String> addresses;
-  final String contactNumber;
+  // // properties
+  // // final Map<String, String> name;
+  // final String firstName;
+  // final String lastName;
+  // final String username;
+  // // final String password;
+  // // final List<String> addresses;
+  // final String contactNumber;
 
   // Factory constructor to instantiate object from json format
   factory Donor.fromJson(Map<String, dynamic> json) {
     return Donor(
-        id: json['id'],
+        uid: json['id'],
         firstName: json['firstName'],
         lastName: json['lastName'],
-        username: json['username'],
+        userName: json['username'],
+        userType: json['userType'],
         // addresses: json['addresses'],
-        contactNumber: json['contactNumer']);
+        contactNumber: json['contactNumer'],
+        email: json['email']);
   }
 
   static List<Donor> fromJsonArray(String jsonData) {
@@ -54,7 +59,7 @@ class Donor {
       'id': donor.id,
       'firstName': donor.firstName,
       'lastName': donor.lastName,
-      'username': donor.username,
+      'username': donor.userName,
       // 'addresses': donor.addresses,
       'contactNumber': contactNumber
     };

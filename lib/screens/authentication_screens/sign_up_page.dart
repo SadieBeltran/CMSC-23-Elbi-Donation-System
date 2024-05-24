@@ -210,10 +210,11 @@ class _SignUpPageState extends State<SignUpPage> {
               .signUp(email!, password!);
 
           Donor newDonor = Donor(
-              id: context.read<UserAuthProvider>().uid,
+              uid: context.read<UserAuthProvider>().uid,
               firstName: firstName!,
               lastName: lastName!,
-              username: email!,
+              userName: userName!,
+              email: email!,
               // addresses: addresses!,
               contactNumber: contactNo!);
           print(newDonor);

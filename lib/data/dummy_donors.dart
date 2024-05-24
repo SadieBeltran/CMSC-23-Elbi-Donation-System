@@ -5,7 +5,8 @@ final List<Donor> dummyDonors = [
   Donor(
     firstName: 'Pastor',
     lastName: 'Agila',
-    username: 'pastor_agila',
+    userName: 'pastor_agila',
+    email: 'agila_paster@mail.com',
     // password: '123456789',
     // addresses: ['Socorro, Surigao del Norte, Philippines'],
     contactNumber: '0998765432',
@@ -13,7 +14,8 @@ final List<Donor> dummyDonors = [
   Donor(
     firstName: 'Bob',
     lastName: 'Jones',
-    username: 'earthIsFlat',
+    userName: 'earthIsFlat',
+    email: 'bobJones@mail.com',
     // password: '123456789',
     // addresses: ['Florida, USA'],
     contactNumber: '0998765432',
