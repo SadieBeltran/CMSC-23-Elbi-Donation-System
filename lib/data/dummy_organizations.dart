@@ -7,7 +7,7 @@ final List<Organization> dummyOrganizations = [
     name: 'Pastor Agila',
     username: 'pastor_agila',
     password: '123456789',
-    addresses: ['Socorro, Surigao del Norte, Philippines'],
+    addresses: ['Socorro, Surigao del Norte, Philippines', 'Marinduque'],
     contactNumber: '0998765432',
     organizationName: 'Socorro Bayanihan Services, Inc.',
     proofsOfLegitimacy: [],

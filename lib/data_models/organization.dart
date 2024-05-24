@@ -2,6 +2,7 @@ import 'package:uuid/uuid.dart';
 
 // utility object that generates unique id
 const uuid = Uuid();
+
 class Organization {
   // constructor
   Organization({
