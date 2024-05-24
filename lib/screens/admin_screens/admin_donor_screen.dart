@@ -32,7 +32,7 @@ class AdminDonorScreen extends ConsumerWidget {
               size: iconSize,
             ),
             SizedBox(width: 10),
-            Text('Organizations'),
+            Text('Donors'),
           ],
         ),
         actions: [

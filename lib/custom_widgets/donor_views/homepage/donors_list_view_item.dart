@@ -22,7 +22,7 @@ class DonorsListViewItem extends StatelessWidget {
         elevation: 2,
         child: ListTile(
           title: Text(
-            donor.name,
+            "${donor.firstName} ${donor.lastName}",
             textAlign: TextAlign.start,
             softWrap: true,
             overflow: TextOverflow
@@ -30,7 +30,7 @@ class DonorsListViewItem extends StatelessWidget {
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black,
             ),
           ),
           trailing: const Icon(Icons.arrow_forward),
