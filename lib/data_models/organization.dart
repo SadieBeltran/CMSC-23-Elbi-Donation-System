@@ -1,3 +1,4 @@
+import 'package:elbi_donation_system/data_models/donation_drive.dart';
 import 'package:uuid/uuid.dart';
 
 // utility object that generates unique id
@@ -15,6 +16,7 @@ class Organization {
     required this.organizationName,
     required this.proofsOfLegitimacy,
     required this.orgImagePath,
+    this.donationDrives
   }) {
     // if the value of id is null, then the app will auto fill the id field
     id = id ?? uuid.v4();
@@ -32,4 +34,5 @@ class Organization {
   // sa ngayon paths to those images in the assets folder muna i-store nitong class
   final List<String> proofsOfLegitimacy;
   final String orgImagePath;
+  List<DonationDrive>? donationDrives;
 }

@@ -5,7 +5,7 @@ class DonationItem {
   List<String>? donationType;
   bool isPickUp; //default is pick-up
   double weight;
-  DateTime time;
+  DateTime time; //FOR PICKUP/DROP-OFF
   List<String>? address;
   String contactNumber;
   int status; //0 - pending, 1- confirmed
@@ -20,8 +20,8 @@ class DonationItem {
     required this.contactNumber,
     required this.status,
   }) {
-    isPickUp = true;
-    time = DateTime.now();
+    // isPickUp = true;
+    // time = DateTime.now();
     status = 0;
   }
 
