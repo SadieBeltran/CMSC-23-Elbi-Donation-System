@@ -1,21 +1,22 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../api/firebase_donor_api.dart';
 import '../data_models/donor.dart';
 
 class DonorListProvider with ChangeNotifier {
   FirebaseDonorAPI firebaseService = FirebaseDonorAPI();
-  // late Stream<QuerySnapshot> _todosStream;
+  late Stream<QuerySnapshot> _donorsStream;
 
   DonorListProvider() {
-    // fetchTodos();
+    fetchAllDonors();
   }
   // getter
-  // Stream<QuerySnapshot> get todo => _todosStream;
+  Stream<QuerySnapshot> get donor => _donorsStream;
 
-  // void fetchTodos() {
-  //   _todosStream = firebaseService.getAllTodos();
-  //   notifyListeners();
-  // }
+  void fetchAllDonors() {
+    _donorsStream = firebaseService.getAllDonors();
+    notifyListeners();
+  }
 
   Future<void> addDonor(Donor donor) async {
     String message = await firebaseService.addDonor(donor.toJson(donor));

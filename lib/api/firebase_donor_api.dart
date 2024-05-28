@@ -13,6 +13,10 @@ class FirebaseDonorAPI {
     }
   }
 
+  Stream<QuerySnapshot> getAllDonors() {
+    return db.collection("donors").snapshots();
+  }
+
 //   Future<List<String>> getAllUsernames() async {
 //     try {
 //       QuerySnapshot querySnapshot = await db.collection("donors").get();
@@ -39,9 +43,7 @@ class FirebaseDonorAPI {
 //   }
 }
 
-// Stream<QuerySnapshot> getAllTodos() {
-  //   return db.collection("todos").snapshots();
-  // }
+// 
 
   // Future<String> deleteTodo(String id) async {
   //   try {
