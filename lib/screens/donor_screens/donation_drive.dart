@@ -1,6 +1,6 @@
 import 'package:elbi_donation_system/data_models/donation_drive.dart';
 import 'package:elbi_donation_system/data_models/organization.dart';
-import 'package:elbi_donation_system/screens/admin_screens/edit_donation_drive.dart';
+import 'package:elbi_donation_system/screens/reusables/edit_donation_drive.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:elbi_donation_system/data_models/donation_item.dart';
 import 'package:flutter/material.dart';

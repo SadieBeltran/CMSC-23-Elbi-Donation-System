@@ -2,7 +2,8 @@ import 'package:elbi_donation_system/custom_widgets/donor_views/donationDrive_li
 import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/donationDrive_card.dart';
 import 'package:elbi_donation_system/data/dummy_organizations.dart';
 import 'package:elbi_donation_system/data_models/organization.dart';
-import 'package:elbi_donation_system/screens/admin_screens/create_donation_drive.dart';
+import 'package:elbi_donation_system/screens/organization_screens/create_donation_drive.dart';
+import 'package:elbi_donation_system/screens/organization_screens/edit_profile.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -98,19 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
-            Text(
-              //ORGANIZATION NAME
-              org.organizationName,
-              textAlign: TextAlign.start,
-              softWrap: true,
-              overflow: TextOverflow
-                  .ellipsis, // for handling overflow for very long texts
-              style: const TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-            ),
+            _orgName,
             Wrap(
               children: [Text(org.description!)],
             ),
@@ -145,4 +134,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ]),
     );
   }
+
+  Widget get _orgName => Row(children: [
+        Expanded(
+            flex: 1,
+            child: Text(
+              //ORGANIZATION NAME
+              currentlyLoggedIn.organizationName,
+              textAlign: TextAlign.start,
+              softWrap: true,
+              overflow: TextOverflow
+                  .ellipsis, // for handling overflow for very long texts
+              style: const TextStyle(
+                fontSize: 40,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+            )),
+        Expanded(
+            flex: 1,
+            child: IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (ctx) => EditProfilePage(user: currentlyLoggedIn),
+                  ),
+                );
+              },
+            ))
+      ]);
 }
