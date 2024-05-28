@@ -4,6 +4,7 @@ import 'donor.dart';
 // model for donation-drives in elbi-donation system, based on model in sheets.
 class DonationDrive {
   String? driveId;
+  String description;
   String driveName;
   DateTime startDate;
   DateTime endDate;
@@ -12,6 +13,7 @@ class DonationDrive {
   List<Donor>? donors;
   DonationDrive({
     this.driveId,
+    required this.description,
     required this.driveName,
     required this.startDate,
     required this.endDate,
@@ -22,6 +24,7 @@ class DonationDrive {
   // Factory constructor to instantiate object from json format
   factory DonationDrive.fromJson(Map<String, dynamic> json) {
     return DonationDrive(
+        description: json['description'],
         driveId: json['driveId'],
         driveName: json['driveName'],
         startDate: json['startDate'],
@@ -40,6 +43,7 @@ class DonationDrive {
   Map<String, dynamic> toJson(DonationDrive drive) {
     return {
       'driveName': drive.driveName,
+      'description': drive.description,
       'startDate': drive.startDate,
       'endDate': drive.endDate,
       'status': drive.status,

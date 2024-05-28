@@ -1,4 +1,5 @@
 import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view.dart';
+import 'package:elbi_donation_system/screens/donor_screens/profile_screen.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,11 +37,15 @@ class DonorHomePage extends ConsumerWidget {
             ),
             SizedBox(width: 10),
             Text('Organizations'),
+            Spacer(),
           ],
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (ctx) => ProfileScreen()));
+            },
             icon: const Icon(
               Icons.person_outline,
               size: iconSize,
