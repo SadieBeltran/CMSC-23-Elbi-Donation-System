@@ -2,7 +2,7 @@
 import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view.dart';
 import 'package:elbi_donation_system/screens/admin_screens/admin_donor_screen.dart';
 import 'package:elbi_donation_system/screens/authentication_screens/sign_in_page.dart';
-import 'package:elbi_donation_system/screens/authentication_screens/sign_up_page.dart';
+import 'package:elbi_donation_system/screens/authentication_screens/sign_up_page_donor.dart';
 import 'package:elbi_donation_system/screens/donor_screens/donor_home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -29,8 +29,10 @@ class DrawerWidget extends StatelessWidget {
       ListTile(
           title: const Text("Sign Up"),
           onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const SignUpPage()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const SignUpDonorPage()));
           }),
       ListTile(
           title: const Text("Donate"),
@@ -49,10 +51,10 @@ class DrawerWidget extends StatelessWidget {
       ListTile(
           title: const Text("Admin Organization"),
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const OrganizationsListView()));
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //         builder: (context) => const OrganizationsListView()));
           })
     ]));
   }

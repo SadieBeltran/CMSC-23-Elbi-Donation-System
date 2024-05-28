@@ -1,6 +1,7 @@
 import 'package:elbi_donation_system/firebase_options.dart';
 import 'package:elbi_donation_system/providers/auth_provider.dart';
 import 'package:elbi_donation_system/providers/donor_provider.dart';
+import 'package:elbi_donation_system/providers/org_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,7 +29,8 @@ Future<void> main() async {
         provider.ChangeNotifierProvider(
             create: ((context) => UserAuthProvider())),
         provider.ChangeNotifierProvider(
-            create: ((context) => DonorListProvider()))
+            create: ((context) => DonorListProvider())),
+        provider.ChangeNotifierProvider(create: ((context)=>OrgListProvider()),)
       ],
       child: ProviderScope(
         child: ElbiUnity(),

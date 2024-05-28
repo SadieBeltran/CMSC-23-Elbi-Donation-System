@@ -6,19 +6,20 @@
  */
 import 'package:elbi_donation_system/data_models/donor.dart';
 import 'package:elbi_donation_system/providers/auth_provider.dart';
+import 'package:elbi_donation_system/screens/authentication_screens/sign_up_page_org.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/donor_provider.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class SignUpDonorPage extends StatefulWidget {
+  const SignUpDonorPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<SignUpDonorPage> createState() => _SignUpDonorPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpDonorPageState extends State<SignUpDonorPage> {
   final _formKey = GlobalKey<FormState>();
   bool isOrganization = false; //default is donor.
 
@@ -200,10 +201,10 @@ class _SignUpPageState extends State<SignUpPage> {
             // const Text("No account yet?"),
             TextButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => const SignUpPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignUpOrgPage()));
                 },
                 child: const Text("Sign Up as an Organization"))
           ],

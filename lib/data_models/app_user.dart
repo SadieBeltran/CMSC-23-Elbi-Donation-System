@@ -23,29 +23,29 @@ class AppUser {
       required this.contactNumber});
 }
 
-class Organization extends AppUser {
-  String? orgId;
-  List<DonationItem>? donatedItems;
-  List<DonationDrive>? donationDrives;
-  String? organizationDescription;
-  bool isVerified; //if org is approved by admin or not
+// class Organization extends AppUser {
+//   String? orgId;
+//   List<DonationItem>? donatedItems;
+//   List<DonationDrive>? donationDrives;
+//   String? organizationDescription;
+//   bool isVerified; //if org is approved by admin or not
 
-  Organization({
-    super.userType, //usertype is 1 for this
-    required super.firstName,
-    required super.lastName,
-    required super.email,
-    required super.userName,
-    required super.contactNumber,
-    this.orgId,
-    this.donatedItems,
-    this.donationDrives,
-    this.organizationDescription,
-    required this.isVerified,
-  }) {
-    super.userType = 1;
-  }
-}
+//   Organization({
+//     super.userType, //usertype is 1 for this
+//     required super.firstName,
+//     required super.lastName,
+//     required super.email,
+//     required super.userName,
+//     required super.contactNumber,
+//     this.orgId,
+//     this.donatedItems,
+//     this.donationDrives,
+//     this.organizationDescription,
+//     required this.isVerified,
+//   }) {
+//     super.userType = 1;
+//   }
+// }
 
 class Admin extends AppUser {
   Admin({

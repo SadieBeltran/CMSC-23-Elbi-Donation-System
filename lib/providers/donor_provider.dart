@@ -24,9 +24,9 @@ class DonorListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> usernameExists(String username) async {
-    return await firebaseService.usernameExists(username);
-  }
+  // Future<bool> usernameExists(String username) async {
+  //   return await firebaseService.usernameExists(username);
+  // }
 
   // void editTodo(String id, String newTitle) async {
   //   await firebaseService.editTodo(id, newTitle);

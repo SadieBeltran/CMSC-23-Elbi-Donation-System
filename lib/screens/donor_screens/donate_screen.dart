@@ -1,6 +1,7 @@
-import 'dart:js_util';
+// import 'dart:js_util';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elbi_donation_system/custom_widgets/donor_views/donationDrive_list_view.dart';
 import 'package:elbi_donation_system/data_models/donation_drive.dart';
 import 'package:elbi_donation_system/data_models/donation_item.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
@@ -33,15 +34,15 @@ class _DonateScreenState extends State<DonateScreen> {
           children: [
             // Org Details
             // org image
-            Hero(
-              tag: widget.org.id!,
-              child: Image.asset(
-                widget.org.orgImagePath,
-                height: 250,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
+            // Hero(
+            //   tag: widget.org.id!,
+            //   child: Image.asset(
+            //     widget.org.orgImagePath,
+            //     height: 250,
+            //     width: double.infinity,
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
             // container for adding margin
             Container(
               margin: const EdgeInsets.all(8),
@@ -114,7 +115,7 @@ class _DonateScreenState extends State<DonateScreen> {
           //username
           ListTile(
             leading: const Icon(Icons.person),
-            title: Text(org.username),
+            // title: Text(org.username),
           ),
           ListTile(
             leading: const Icon(Icons.phone),
