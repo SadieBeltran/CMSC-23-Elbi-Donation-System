@@ -27,7 +27,9 @@ class OrganizationsListViewItem extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (ctx) => DonateScreen(org: org,),
+              builder: (ctx) => DonateScreen(
+                org: org,
+              ),
             ),
           );
         },
