@@ -30,10 +30,20 @@ class _SignUpPageState extends State<SignUpPage> {
   String? userName;
   String? password;
   List<String>? addresses;
+  List<TextEditingController> addressControllers = [TextEditingController()];
   String? contactNo;
   int typeOfUser = 0; //0 means donor, 1 means organization
   String? nameOfOrg;
   // String? proofOfLegitimacy; //I think images should be implemented later on... (kinda a pain to think about)
+  String? usernameError;
+
+  @override
+  void dispose() {
+    for (var controller in addressControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +61,15 @@ class _SignUpPageState extends State<SignUpPage> {
                       heading,
                       emailField,
                       passwordField,
+                      // userNameField,
                       firstNameField,
                       lastNameField,
                       contactNum,
-                      orgName,
-                      submitButton
+                      ...addressFields,
+                      addAddressButton,
+                      // orgName,
+                      submitButton,
+                      signUpOrgButton
                     ],
                   ))),
         ));
@@ -112,6 +126,36 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       );
 
+  // Widget get userNameField => Padding(
+  //     padding: const EdgeInsets.only(bottom: 30),
+  //     child: Column(
+  //       children: [
+  //         TextFormField(
+  //           decoration: const InputDecoration(
+  //               border: OutlineInputBorder(),
+  //               label: Text("Username"),
+  //               hintText: "Enter username"),
+  //           onSaved: (value) =>
+  //               setState(() => /*name['firstName']*/ userName = value),
+  //           validator: (value) {
+  //             if (value == null || value.isEmpty) {
+  //               return "Username must not be empty";
+  //             }
+  //             return null;
+  //           },
+  //         ),
+  //         if (usernameError != null)
+  //           Padding(
+  //             padding: const EdgeInsets.only(top: 8.0),
+  //             child: Text(
+  //               usernameError!,
+  //               style: TextStyle(
+  //                   color: Theme.of(context).errorColor, fontSize: 12),
+  //             ),
+  //           ),
+  //       ],
+  //     ));
+
   Widget get firstNameField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -148,6 +192,24 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       );
 
+  Widget get signUpOrgButton => Padding(
+        padding: const EdgeInsets.all(30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // const Text("No account yet?"),
+            TextButton(
+                onPressed: () {
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => const SignUpPage()));
+                },
+                child: const Text("Sign Up as an Organization"))
+          ],
+        ),
+      );
+
 // might want to change it to <dropdown> <number field> for convenience
   // Widget get contactNum => textFormFieldGenerator(
   //     RegExp(r"^(\+639|09)\d{9}$"),
@@ -174,36 +236,95 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       );
 
-  Widget get address => Padding(
+  // Widget get address => Padding(
+  //       padding: const EdgeInsets.only(bottom: 30),
+  //       child: TextFormField(
+  //         decoration: InputDecoration(
+  //             border: const OutlineInputBorder(),
+  //             label: Text('Address'),
+  //             hintText: "Insert organization name here"),
+  //         onSaved: (value) => setState(() => addresses?.add(value!)),
+  //         validator: (value) {
+  //           if (value == null || value.isEmpty) {
+  //             return "Address must not be empty";
+  //           } else if (RegExp(r"^[^\n]{0,79}$").hasMatch(value)) {
+  //             return "Address must not contain new lines and must not exceed 79 characters!";
+  //           }
+  //           return null;
+  //         },
+  //       ),
+  //     );
+
+  List<Widget> get addressFields => addressControllers
+      .map((controller) => Padding(
+            padding: const EdgeInsets.only(bottom: 30),
+            child: TextFormField(
+              controller: controller,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                label: Text("Address"),
+                hintText: "Enter your address",
+              ),
+              onSaved: (value) => setState(() {
+                if (value != null && value.isNotEmpty) {
+                  addresses?.add(value);
+                }
+              }),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Address must not be empty";
+                } else if (value.contains('\n')) {
+                  return "Address must not contain new lines!";
+                } else if (value.length > 79) {
+                  return "Address must not exceed 79 characters!";
+                }
+                return null;
+              },
+            ),
+          ))
+      .toList();
+
+  Widget get addAddressButton => Padding(
         padding: const EdgeInsets.only(bottom: 30),
-        child: TextFormField(
-          decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              label: Text('Address'),
-              hintText: "Insert organization name here"),
-          onSaved: (value) => setState(() => addresses?.add(value!)),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "Address must not be empty";
-            } else if (RegExp(r"^[^\n]{0,79}$").hasMatch(value)) {
-              return "Address must not contain new lines and must not exceed 79 characters!";
-            }
-            return null;
+        child: ElevatedButton(
+          onPressed: () {
+            setState(() {
+              addressControllers.add(TextEditingController());
+            });
           },
+          child: const Text("Add Another Address"),
         ),
       );
 
-  Widget get orgName => textFormFieldGenerator(
-      RegExp(r"^[^\n]{0,79}$"),
-      "Organization Name",
-      "Insert organization name here",
-      "must not contain new lines and must not exceed 79 characters!",
-      nameOfOrg);
+  // Widget get orgName => textFormFieldGenerator(
+  //     RegExp(r"^[^\n]{0,79}$"),
+  //     "Organization Name",
+  //     "Insert organization name here",
+  //     "must not contain new lines and must not exceed 79 characters!",
+  //     nameOfOrg);
 
   Widget get submitButton => ElevatedButton(
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
+          print(
+              "${firstName}, ${lastName}, ${email}, ${addresses}, ${contactNo}");
+          // Check if the username already exists
+          // bool usernameTaken =
+          //     await context.read<DonorListProvider>().usernameExists(userName!);
+          // if (usernameTaken) {
+          //   setState(() {
+          //     usernameError =
+          //         "Username already taken. Please choose another one.";
+          //   });
+          //   return;
+          // } else {
+          //   setState(() {
+          //     usernameError = null;
+          //   });
+          // }
+
           _formKey.currentState!.save();
+
           await context
               .read<UserAuthProvider>()
               .authService
@@ -213,11 +334,12 @@ class _SignUpPageState extends State<SignUpPage> {
               uid: context.read<UserAuthProvider>().uid,
               firstName: firstName!,
               lastName: lastName!,
-              userName: userName!,
-              email: email!,
-              // addresses: addresses!,
+              userName: email!,
+              addresses: addressControllers
+                  .map((controller) => controller.text)
+                  .toList(),
               contactNumber: contactNo!);
-          print(newDonor);
+
           await context.read<DonorListProvider>().addDonor(newDonor);
         }
         //   // check if the widget hasn't been disposed of after an asynchronous action

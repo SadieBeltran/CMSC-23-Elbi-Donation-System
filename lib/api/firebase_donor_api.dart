@@ -13,7 +13,33 @@ class FirebaseDonorAPI {
     }
   }
 
-  // Stream<QuerySnapshot> getAllTodos() {
+  Future<List<String>> getAllUsernames() async {
+    try {
+      QuerySnapshot querySnapshot = await db.collection("donors").get();
+      List<String> usernames =
+          querySnapshot.docs.map((doc) => doc['username'] as String).toList();
+      return usernames;
+    } on FirebaseException catch (e) {
+      print("Error in ${e.code}: ${e.message}");
+      return [];
+    }
+  }
+
+  Future<bool> usernameExists(String? username) async {
+    try {
+      QuerySnapshot querySnapshot = await db
+          .collection("donors")
+          .where('username', isEqualTo: username)
+          .get();
+      return true;
+    } on FirebaseException catch (e) {
+      print("Error in ${e.code}: ${e.message}");
+      return false;
+    }
+  }
+}
+
+// Stream<QuerySnapshot> getAllTodos() {
   //   return db.collection("todos").snapshots();
   // }
 
@@ -46,4 +72,3 @@ class FirebaseDonorAPI {
   //     return "Error in ${e.code}: ${e.message}";
   //   }
   // }
-}
