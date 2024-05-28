@@ -29,12 +29,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
           child: Column(
             children: [
               // TO IMPLEMENT, CHANGE IMAGE
-              Image.asset(
-                widget.user.orgImagePath,
-                height: 250,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+              // Image.asset(
+              //   widget.user.orgImagePath,
+              //   height: 250,
+              //   width: double.infinity,
+              //   fit: BoxFit.cover,
+              // ),
               const Text("Will implement the rest later...")
             ],
           ),

@@ -20,7 +20,7 @@ class ProfileScreen extends StatefulWidget {
 // TEMPORARY
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  var currentlyLoggedIn = dummyOrganizations[0];
+  // var currentlyLoggedIn = dummyOrganizations[0];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,23 +29,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         drawer: const DrawerWidget(),
         body: SingleChildScrollView(
-          child: orgInfo(currentlyLoggedIn),
-        ));
+            // child: orgInfo(currentlyLoggedIn),
+            ));
   }
 
   Widget orgInfo(Organization org) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Hero(
-          tag: org.id!,
-          child: Image.asset(
-            org.orgImagePath,
-            height: 250,
-            width: double.infinity,
-            fit: BoxFit.cover,
-          ),
-        ),
+        // Hero(
+        //   tag: org.id!,
+        //   child: Image.asset(
+        //     org.orgImagePath,
+        //     height: 250,
+        //     width: double.infinity,
+        //     fit: BoxFit.cover,
+        //   ),
+        // ),
         Container(
           margin: const EdgeInsets.all(8),
           child: Column(
@@ -123,10 +123,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               }),
             ),
             //username
-            ListTile(
-              leading: const Icon(Icons.person),
-              title: Text(org.username),
-            ),
+            // ListTile(
+            //   leading: const Icon(Icons.person),
+            //   title: Text(org.username),
+            // ),
             ListTile(
               leading: const Icon(Icons.phone),
               title: Text(org.contactNumber),
@@ -136,32 +136,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget get _orgName => Row(children: [
-        Expanded(
-            flex: 1,
-            child: Text(
-              //ORGANIZATION NAME
-              currentlyLoggedIn.organizationName,
-              textAlign: TextAlign.start,
-              softWrap: true,
-              overflow: TextOverflow
-                  .ellipsis, // for handling overflow for very long texts
-              style: const TextStyle(
-                fontSize: 40,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-            )),
-        Expanded(
-            flex: 1,
-            child: IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (ctx) => EditProfilePage(user: currentlyLoggedIn),
-                  ),
-                );
-              },
-            ))
+        // Expanded(
+        //     flex: 1,
+        //     child: Text(
+        //       //ORGANIZATION NAME
+        //       currentlyLoggedIn.organizationName,
+        //       textAlign: TextAlign.start,
+        //       softWrap: true,
+        //       overflow: TextOverflow
+        //           .ellipsis, // for handling overflow for very long texts
+        //       style: const TextStyle(
+        //         fontSize: 40,
+        //         fontWeight: FontWeight.w500,
+        //         color: Colors.black,
+        //       ),
+        //     )),
+        // Expanded(
+        //     flex: 1,
+        //     child: IconButton(
+        //       icon: const Icon(Icons.edit),
+        //       onPressed: () {
+        //         Navigator.of(context).push(
+        //           MaterialPageRoute(
+        //             builder: (ctx) => EditProfilePage(user: currentlyLoggedIn),
+        //           ),
+        //         );
+        //       },
+        //     ))
       ]);
 }

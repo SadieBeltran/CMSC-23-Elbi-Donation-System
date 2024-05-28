@@ -14,16 +14,16 @@ class DonorHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // get the list of organizations from the provider
-    final List<Organization> organizationsList = ref.watch(dummyDataProvider);
+    // final List<Organization> organizationsList = ref.watch(dummyDataProvider);
     const double iconSize = 30;
 
     // this variable will hold the content to be shown on the body of the Scaffold()
     late Widget bodyContent;
 
     // identify the content to be shown in this screen
-    if (organizationsList.isNotEmpty) {
-      bodyContent = OrganizationsListView();
-    } else {}
+    // if (organizationsList.isNotEmpty) {
+    //   bodyContent = OrganizationsListView();
+    // } else {}
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -54,7 +54,7 @@ class DonorHomePage extends ConsumerWidget {
         ],
       ),
       drawer: const DrawerWidget(),
-      body: bodyContent,
+      // body: bodyContent,
     );
   }
 }

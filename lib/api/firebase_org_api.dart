@@ -1,20 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseDonorAPI {
+class FirebaseOrgAPI {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<String> addDonor(Map<String, dynamic> donor) async {
+  Future<String> addOrg(Map<String, dynamic> org) async {
     try {
-      await db.collection("donors").add(donor);
+      await db.collection("organizations").add(org);
 
       return "Successfully added!";
     } on FirebaseException catch (e) {
       return "Error in ${e.code}: ${e.message}";
     }
-  }
-
-  Stream<QuerySnapshot> getAllDonors() {
-    return db.collection("donors").snapshots();
   }
 
 //   Future<List<String>> getAllUsernames() async {
@@ -43,7 +39,9 @@ class FirebaseDonorAPI {
 //   }
 }
 
-// 
+// Stream<QuerySnapshot> getAllTodos() {
+  //   return db.collection("todos").snapshots();
+  // }
 
   // Future<String> deleteTodo(String id) async {
   //   try {
