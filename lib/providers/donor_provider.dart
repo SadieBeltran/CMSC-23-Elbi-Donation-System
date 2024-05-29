@@ -19,7 +19,8 @@ class DonorListProvider with ChangeNotifier {
   }
 
   Future<void> addDonor(Donor donor) async {
-    String message = await firebaseService.addDonor(donor.toJson(donor));
+    String message =
+        await firebaseService.addDonor(donor.toJson(donor), donor.uid);
     print(message);
     print("ADDED");
     notifyListeners();

@@ -1,27 +1,3 @@
-// import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view_item.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// // data model
-// import 'package:elbi_donation_system/data_models/organization.dart';
-// // provider
-// import 'package:elbi_donation_system/providers/dummy_data_provider.dart';
-
-// class OrganizationsListView extends ConsumerWidget {
-//   const OrganizationsListView({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     // get the list of organizations from the provider
-//     // final List<Organization> organizationsList = ref.watch(dummyDataProvider);
-
-//     return ListView.builder(
-//       itemCount: organizationsList.length,
-//       itemBuilder: (ctx, index) => OrganizationsListViewItem(
-//         org: organizationsList[index],
-//       ),
-//     );
-//   }
-// }
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view_item.dart';
 import 'package:elbi_donation_system/data_models/organization.dart';
@@ -40,9 +16,9 @@ class OrganizationsListView extends StatefulWidget {
 class _OrganizationsListViewState extends State<OrganizationsListView> {
   @override
   Widget build(BuildContext context) {
-    Stream<QuerySnapshot> orgStream = context.watch<OrgListProvider>().orgs;
-    print("in orglistview");
-// RETURN ALL APPROVED ORGANIZATIONS
+    Stream<QuerySnapshot> orgStream =
+        context.read<OrgListProvider>().approvedOrgs;
+
     return StreamBuilder(
         stream: orgStream,
         builder: (context, AsyncSnapshot snapshot) {
@@ -70,11 +46,7 @@ class _OrganizationsListViewState extends State<OrganizationsListView> {
                   snapshot.data?.docs[index].data() as Map<String, dynamic>);
               print(org);
               org.uid = snapshot.data?.docs[index].id;
-              if (widget.isApproved == org.accepted) {
-                return OrganizationsListViewItem(org: org);
-              } else {
-                return Container();
-              }
+              return OrganizationsListViewItem(org: org);
             }),
           );
         });

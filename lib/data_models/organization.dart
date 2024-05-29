@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:elbi_donation_system/data_models/donation_drive.dart';
 import 'package:uuid/uuid.dart';
 
 // utility object that generates unique id
@@ -35,7 +34,6 @@ class Organization {
       donationDrives: json['donationDrives'],
       organizationName: json['organizationName'],
       proofOfLegitimacy: json['proofOfLegitimacy'],
-      uid: json['uid'],
     );
   }
 
@@ -48,7 +46,6 @@ class Organization {
 
   Map<String, dynamic> toJson(Organization organization) {
     return {
-      'uid': organization.uid,
       'organizationName': organization.organizationName,
       'addresses': organization.addresses,
       'contactNumber': organization.contactNumber,

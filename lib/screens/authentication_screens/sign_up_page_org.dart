@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:elbi_donation_system/data_models/app_user.dart';
 import 'package:elbi_donation_system/data_models/organization.dart';
+import 'package:elbi_donation_system/providers/app_user_provider.dart';
 import 'package:elbi_donation_system/providers/auth_provider.dart';
 import 'package:elbi_donation_system/screens/authentication_screens/sign_up_page_donor.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
@@ -22,6 +24,8 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
 
 // for the data that Form will record
   String? email;
+  String? firstName;
+  String? lastName;
   String? _description;
   String? orgName;
   String? password;
@@ -55,6 +59,7 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       heading,
+                      _legalName,
                       emailField,
                       passwordField,
                       // userNameField,
@@ -75,6 +80,47 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
         ));
   }
 
+  Widget get _legalName => Row(children: [
+        Expanded(
+          flex: 1,
+          child: TextFormField(
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                label: Text("First Name"),
+                hintText: "Juan"),
+            onSaved: (value) => setState(() => firstName = value),
+            validator: (value) {
+              RegExp reg = RegExp(r"^(.|\s)*[a-zA-Z]+(.|\s)*$");
+              if (value == null || value.isEmpty) {
+                return "First name field must contain something";
+              } else if (!reg.hasMatch(value)) {
+                return "Please input a name";
+              }
+              return null;
+            },
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: TextFormField(
+            decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                label: Text("Last Name"),
+                hintText: "de la Cruz"),
+            onSaved: (value) => setState(() => lastName = value),
+            validator: (value) {
+              RegExp reg = RegExp(r"^(.|\s)*[a-zA-Z]+(.|\s)*$");
+              if (value == null || value.isEmpty) {
+                return "First name field must contain something";
+              } else if (!reg.hasMatch(value)) {
+                return "Please input a name";
+              }
+              return null;
+            },
+          ),
+        )
+      ]);
+
   Widget get _descriptionFormField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -84,17 +130,13 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
               border: OutlineInputBorder(),
               label: Text("Description"),
               hintText: "Describe your organization"),
-          onSaved: (value) => setState(() => email = value),
+          onSaved: (value) => setState(() => _description = value),
           validator: (value) {
             RegExp reg = RegExp(r"^(.|\s)*[a-zA-Z]+(.|\s)*$");
             if (value == null || value.isEmpty) {
               return "Address field must contain something";
             } else if (!reg.hasMatch(value)) {
               return "Please input a valid address";
-            } else {
-              setState(() {
-                _description = value;
-              });
             }
             return null;
           },
@@ -232,14 +274,6 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
         ),
       );
 
-// might want to change it to <dropdown> <number field> for convenience
-  // Widget get contactNum => textFormFieldGenerator(
-  //     RegExp(r"^(\+639|09)\d{9}$"),
-  //     "Contact Number",
-  //     "09123456789",
-  //     "must either start with 09 or +639 and end with 9 digits",
-  //     contactNo);
-
   Widget get contactNum => Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: TextFormField(
@@ -311,6 +345,10 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
               .read<UserAuthProvider>()
               .authService
               .signUp(email!, password!);
+          print("successfully signed up");
+
+          AppUser newAppUser =
+              AppUser(id: context.read<UserAuthProvider>().uid, userType: 1);
 
           Organization newOrg = Organization(
             uid: context.read<UserAuthProvider>().uid,
@@ -326,7 +364,12 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
 
           print(
               '${newOrg.uid}, ${newOrg.organizationName}, ${newOrg.description}, ${newOrg.addresses}, ${newOrg.contactNumber}, ${newOrg.proofOfLegitimacy}, ${newOrg.accepted},');
-          mounted ? await context.read<OrgListProvider>().addOrg(newOrg) : null;
+          if (mounted) {
+            await context.read<OrgListProvider>().addOrg(newOrg);
+          }
+          mounted
+              ? await context.read<AppUserProvider>().addAppUser(newAppUser)
+              : null;
         }
         //   // check if the widget hasn't been disposed of after an asynchronous action
         mounted ? Navigator.pop(context) : null; //go back to the signin page?

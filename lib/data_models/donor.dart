@@ -12,6 +12,7 @@ class Donor {
   String lastName;
   String userName;
   List<String> addresses;
+  String? profilePicture;
   String contactNumber;
   // constructor
   Donor({
@@ -21,15 +22,16 @@ class Donor {
     required this.userName,
     // required this.password,
     required this.addresses,
+    this.profilePicture,
     required this.contactNumber,
   });
   // Factory constructor to instantiate object from json format
   factory Donor.fromJson(Map<String, dynamic> json) {
     return Donor(
-      uid: json['uid'],
       firstName: json['firstName'],
       lastName: json['lastName'],
       userName: json['username'],
+      profilePicture: json['profilePic'],
       addresses: json['addresses'],
       contactNumber: json['contactNumer'],
     );
@@ -42,7 +44,6 @@ class Donor {
 
   Map<String, dynamic> toJson(Donor donor) {
     return {
-      'uid': donor.uid,
       'firstName': donor.firstName,
       'lastName': donor.lastName,
       'username': donor.userName,

@@ -1,56 +1,47 @@
-import 'package:elbi_donation_system/screens/donor_screens/profile_screen.dart';
-import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
+import 'package:elbi_donation_system/providers/auth_provider.dart';
+import 'package:elbi_donation_system/providers/org_provider.dart';
+import 'package:elbi_donation_system/screens/authentication_screens/sign_in_page.dart';
+import 'package:elbi_donation_system/screens/donor_screens/organization_list_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-// data model
-// provider
+import 'package:provider/provider.dart';
 
-class DonorHomePage extends ConsumerWidget {
+class DonorHomePage extends StatefulWidget {
   const DonorHomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // get the list of organizations from the provider
-    // final List<Organization> organizationsList = ref.watch(dummyDataProvider);
-    const double iconSize = 30;
+  State<DonorHomePage> createState() => _DonorHomePageState();
+}
 
-    // this variable will hold the content to be shown on the body of the Scaffold()
+class _DonorHomePageState extends State<DonorHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    Stream<User?> userStream = context.watch<UserAuthProvider>().userStream;
+    User? loggedIn = context
+        .read<UserAuthProvider>()
+        .user; //it's read because there can only be one user who access the todo_page
 
-    // identify the content to be shown in this screen
-    // if (organizationsList.isNotEmpty) {
-    //   bodyContent = OrganizationsListView();
-    // } else {}
+    return StreamBuilder(
+        stream: userStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Scaffold(
+              body: Center(
+                child: Text("Error encountered! ${snapshot.error}"),
+              ),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          } else if (!snapshot.hasData) {
+            return const SignInPage();
+          }
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Row(
-          children: [
-            Icon(
-              Icons.people_alt_outlined,
-              size: iconSize,
-            ),
-            SizedBox(width: 10),
-            Text('Organizations'),
-            Spacer(),
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (ctx) => ProfileScreen()));
-            },
-            icon: const Icon(
-              Icons.person_outline,
-              size: iconSize,
-            ),
-          ),
-        ],
-      ),
-      drawer: const DrawerWidget(),
-      // body: bodyContent,
-    );
+          // if user is logged in, display the scaffold containing the streambuilder for the todos
+          return const OrganizationListPage();
+        });
   }
 }

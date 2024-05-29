@@ -32,7 +32,7 @@ Future<void> main() async {
             create: ((context) => DonorListProvider())),
         provider.ChangeNotifierProvider(create: ((context)=>OrgListProvider()),)
       ],
-      child: ProviderScope(
+      child: const ProviderScope(
         child: ElbiUnity(),
       ),
     ),

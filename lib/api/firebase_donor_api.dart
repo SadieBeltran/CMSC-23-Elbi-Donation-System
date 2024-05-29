@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirebaseDonorAPI {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<String> addDonor(Map<String, dynamic> donor) async {
+  Future<String> addDonor(Map<String, dynamic> donor, String? id) async {
     try {
-      await db.collection("donors").add(donor);
+      await db.collection("donors").doc(id).set(donor);
 
       return "Successfully added!";
     } on FirebaseException catch (e) {
