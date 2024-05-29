@@ -1,6 +1,6 @@
 // data model
-import 'package:elbi_donation_system/data_models/donation_drive.dart';
-import 'package:elbi_donation_system/data_models/organization.dart';
+// import 'package:elbi_donation_system/data_models/donation_drive.dart';
+// import 'package:elbi_donation_system/data_models/organization.dart';
 
 // dummy list of organizations
 // final List<Organization> dummyOrganizations = [

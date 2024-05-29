@@ -1,10 +1,10 @@
-import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view_item.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-// data model
-import 'package:elbi_donation_system/data_models/organization.dart';
-// provider
-import 'package:elbi_donation_system/providers/dummy_data_provider.dart';
+// import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view_item.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// // data model
+// import 'package:elbi_donation_system/data_models/organization.dart';
+// // provider
+// import 'package:elbi_donation_system/providers/dummy_data_provider.dart';
 
 // class OrganizationsListView extends ConsumerWidget {
 //   const OrganizationsListView({super.key});

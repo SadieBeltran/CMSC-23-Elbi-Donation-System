@@ -1,6 +1,6 @@
 // this is the model for user.
-import 'donation_item.dart';
-import 'donation_drive.dart';
+// import 'donation_item.dart';
+// import 'donation_drive.dart';
 
 class AppUser {
   String? id;

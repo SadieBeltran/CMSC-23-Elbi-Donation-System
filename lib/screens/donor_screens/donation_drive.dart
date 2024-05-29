@@ -1,5 +1,4 @@
 import 'package:elbi_donation_system/data_models/donation_drive.dart';
-import 'package:elbi_donation_system/data_models/organization.dart';
 import 'package:elbi_donation_system/screens/reusables/edit_donation_drive.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:elbi_donation_system/data_models/donation_item.dart';
@@ -219,7 +218,7 @@ class _DonationDrivePageState extends State<DonationDrivePage> {
               address: _address,
               contactNumber: _contactNumber,
               status: 0);
-          print(DonationItem);
+          print(newDonation);
         }
       },
       child: const Text("Sign Up"));

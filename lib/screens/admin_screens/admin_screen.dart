@@ -1,5 +1,4 @@
 import 'package:elbi_donation_system/screens/admin_screens/admin_donor_screen.dart';
-import 'package:elbi_donation_system/screens/admin_screens/admin_organization_screen.dart';
 import 'package:flutter/material.dart';
 
 class AdminScreen extends StatefulWidget {
@@ -37,6 +36,5 @@ class _AdminScreenState extends State<AdminScreen> {
         ],
       ),
     );
-    ;
   }
 }

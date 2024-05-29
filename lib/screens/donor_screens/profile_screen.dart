@@ -1,11 +1,7 @@
 import 'package:elbi_donation_system/custom_widgets/donor_views/donationDrive_list_view.dart';
-import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/donationDrive_card.dart';
-import 'package:elbi_donation_system/data/dummy_organizations.dart';
 import 'package:elbi_donation_system/data_models/organization.dart';
 import 'package:elbi_donation_system/screens/organization_screens/create_donation_drive.dart';
-import 'package:elbi_donation_system/screens/organization_screens/edit_profile.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

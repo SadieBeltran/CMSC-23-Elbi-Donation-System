@@ -1,6 +1,4 @@
 /*  */
-import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view.dart';
-import 'package:elbi_donation_system/screens/admin_screens/admin_donor_screen.dart';
 import 'package:elbi_donation_system/screens/admin_screens/admin_screen.dart';
 import 'package:elbi_donation_system/screens/authentication_screens/sign_in_page.dart';
 import 'package:elbi_donation_system/screens/authentication_screens/sign_up_page_donor.dart';

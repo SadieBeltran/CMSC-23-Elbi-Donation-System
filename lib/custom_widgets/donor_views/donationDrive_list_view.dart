@@ -22,6 +22,5 @@ class DonationDriveListView extends StatelessWidget {
             );
           }),
     );
-    ;
   }
 }
