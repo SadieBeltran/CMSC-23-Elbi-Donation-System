@@ -15,6 +15,7 @@ class OrganizationsListViewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Entered orglistviewitem");
     return Card(
       margin: const EdgeInsets.all(8),
       shape: RoundedRectangleBorder(
@@ -48,6 +49,12 @@ class OrganizationsListViewItem extends StatelessWidget {
             //   ),
             // ),
             // Positioned widget positions a widget on top of another widget in the stack
+            Image.network(
+              org.proofOfLegitimacy,
+              fit: BoxFit.cover,
+              height: 200,
+              width: double.infinity,
+            ),
             Positioned(
               // make the child widget container be positioned in the bottom of the
               // previous widget in the stack, and span left to right

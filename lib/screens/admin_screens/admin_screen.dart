@@ -1,3 +1,4 @@
+import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view.dart';
 import 'package:elbi_donation_system/screens/admin_screens/admin_donor_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -10,13 +11,14 @@ class AdminScreen extends StatefulWidget {
 
 class _AdminScreenState extends State<AdminScreen> {
   int myIndex = 0;
-  List<Widget> widgetList = [
-    Text("Org List"),
-    Text("Approve Org List"),
-    AdminDonorScreen(),
-  ];
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> widgetList = [
+      _approvedOrgsList,
+      _notApprovedOrgsList,
+      AdminDonorScreen(),
+    ];
     return Scaffold(
       body: Center(child: widgetList[myIndex]),
       bottomNavigationBar: BottomNavigationBar(
@@ -26,7 +28,7 @@ class _AdminScreenState extends State<AdminScreen> {
           });
         },
         currentIndex: myIndex,
-        items: [
+        items: const [
           BottomNavigationBarItem(
               icon: Icon(Icons.groups_2_outlined), label: 'Organizations'),
           BottomNavigationBarItem(
@@ -37,4 +39,8 @@ class _AdminScreenState extends State<AdminScreen> {
       ),
     );
   }
+
+  Widget get _approvedOrgsList => const OrganizationsListView(isApproved: true);
+  Widget get _notApprovedOrgsList =>
+      const OrganizationsListView(isApproved: false);
 }

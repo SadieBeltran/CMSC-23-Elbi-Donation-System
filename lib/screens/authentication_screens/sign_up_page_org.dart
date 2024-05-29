@@ -22,7 +22,7 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
 
 // for the data that Form will record
   String? email;
-  // Map<String, String?> name = {'firstName': "", 'lastName': ""};
+  String? _description;
   String? orgName;
   String? password;
   List<String>? addresses;
@@ -62,7 +62,11 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
                       contactNum,
                       ...addressFields,
                       addAddressButton,
-                      // orgName,
+                      _descriptionFormField,
+                      const Divider(
+                        thickness: 2,
+                        color: Colors.grey,
+                      ),
                       proofOfLegitimacyBtn,
                       submitButton,
                       signUpDonateButton
@@ -70,6 +74,32 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
                   ))),
         ));
   }
+
+  Widget get _descriptionFormField => Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: TextFormField(
+          keyboardType: TextInputType.multiline,
+          maxLines: null,
+          decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              label: Text("Description"),
+              hintText: "Describe your organization"),
+          onSaved: (value) => setState(() => email = value),
+          validator: (value) {
+            RegExp reg = RegExp(r"^(.|\s)*[a-zA-Z]+(.|\s)*$");
+            if (value == null || value.isEmpty) {
+              return "Address field must contain something";
+            } else if (!reg.hasMatch(value)) {
+              return "Please input a valid address";
+            } else {
+              setState(() {
+                _description = value;
+              });
+            }
+            return null;
+          },
+        ),
+      );
 
   Widget get heading => const Padding(
         padding: EdgeInsets.only(bottom: 30),
@@ -123,10 +153,20 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
       );
 
   Widget get proofOfLegitimacyBtn => Padding(
-      padding: const EdgeInsets.only(top: 30),
+      padding: const EdgeInsets.only(top: 2),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          IconButton(
+          TextButton.icon(
+              style: TextButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  side: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                ),
+              ),
               onPressed: () async {
                 ImagePicker imagePicker = ImagePicker();
                 XFile? file =
@@ -144,9 +184,15 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
                 try {
                   await referenceImageToUpload.putFile(File(file.path));
                   imageUrl = await referenceImageToUpload.getDownloadURL();
-                } catch (err) {}
+                } catch (err) {
+                  AlertDialog(
+                    title: const Text("Error"),
+                    content: Text("$err"),
+                  );
+                }
               },
-              icon: Icon(Icons.camera_alt)),
+              label: const Text("Upload proof of validity"),
+              icon: const Icon(Icons.camera_alt))
         ],
       ));
 
@@ -259,7 +305,6 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
           if (imageUrl?.isEmpty ?? true) {
             return;
           }
-
           _formKey.currentState!.save();
 
           await context
@@ -273,18 +318,18 @@ class _SignUpOrgPageState extends State<SignUpOrgPage> {
             addresses: addressControllers
                 .map((controller) => controller.text)
                 .toList(),
+            description: _description,
             contactNumber: contactNo!,
             proofOfLegitimacy: imageUrl!,
             accepted: accepted,
           );
 
           print(
-              '${newOrg.uid}, ${newOrg.organizationName}, ${newOrg.addresses}, ${newOrg.contactNumber}, ${newOrg.proofOfLegitimacy}, ${newOrg.accepted},');
-
-          await context.read<OrgListProvider>().addOrg(newOrg);
+              '${newOrg.uid}, ${newOrg.organizationName}, ${newOrg.description}, ${newOrg.addresses}, ${newOrg.contactNumber}, ${newOrg.proofOfLegitimacy}, ${newOrg.accepted},');
+          mounted ? await context.read<OrgListProvider>().addOrg(newOrg) : null;
         }
         //   // check if the widget hasn't been disposed of after an asynchronous action
-        //   if (mounted) Navigator.pop(context); //go back to the signin page?
+        mounted ? Navigator.pop(context) : null; //go back to the signin page?
         // }
       },
       child: const Text("Sign Up"));

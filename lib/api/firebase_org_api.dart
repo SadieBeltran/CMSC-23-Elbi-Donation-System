@@ -13,6 +13,11 @@ class FirebaseOrgAPI {
     }
   }
 
+  Stream<QuerySnapshot> getAllOrgs() {
+    print("getting orgs");
+    return db.collection("organizations").snapshots();
+  }
+
 //   Future<List<String>> getAllUsernames() async {
 //     try {
 //       QuerySnapshot querySnapshot = await db.collection("donors").get();

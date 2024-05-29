@@ -19,7 +19,9 @@ class FirebaseAuthAPI {
 
   Future<String?> signIn(String email, String password) async {
     try {
+      print("$email, $password");
       await auth.signInWithEmailAndPassword(email: email, password: password);
+      print("Successfully signed in");
       return "";
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {

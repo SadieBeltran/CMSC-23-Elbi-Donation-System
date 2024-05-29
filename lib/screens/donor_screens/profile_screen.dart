@@ -1,4 +1,5 @@
 import 'package:elbi_donation_system/custom_widgets/donor_views/donationDrive_list_view.dart';
+import 'package:elbi_donation_system/custom_widgets/organization_info.dart';
 import 'package:elbi_donation_system/data_models/organization.dart';
 import 'package:elbi_donation_system/screens/organization_screens/create_donation_drive.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
@@ -47,9 +48,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              orgContent(org),
+              OrganizationInfo(org: org),
               Row(children: [
-                DonationDriveListView(org: org),
+                org.donationDrives == null
+                    ? Container()
+                    : DonationDriveListView(org: org),
                 TextButton.icon(
                   icon: const Icon(Icons.add),
                   style: TextButton.styleFrom(
@@ -80,84 +83,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ],
     );
   }
-
-  Widget orgContent(Organization org) {
-    return Container(
-      margin: const EdgeInsets.all(30),
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        // color: Colors.black45,
-        borderRadius: BorderRadius.all(
-          Radius.circular(15),
-        ),
-      ),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            _orgName,
-            Wrap(
-              children: [Text(org.description!)],
-            ),
-            //Addresses (Make this a ListView.builder, to be changed into Streambuilder later)
-            const Text(
-              "Addresses",
-              style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-            ),
-            ListView.builder(
-              //ADDRESS
-              shrinkWrap: true,
-              itemCount: org.addresses.length,
-              itemBuilder: ((context, index) {
-                return ListTile(
-                    title: Text(org.addresses[index]),
-                    leading: const Icon(Icons.location_city_outlined));
-              }),
-            ),
-            //username
-            // ListTile(
-            //   leading: const Icon(Icons.person),
-            //   title: Text(org.username),
-            // ),
-            ListTile(
-              leading: const Icon(Icons.phone),
-              title: Text(org.contactNumber),
-            )
-          ]),
-    );
-  }
-
-  Widget get _orgName => Row(children: [
-        // Expanded(
-        //     flex: 1,
-        //     child: Text(
-        //       //ORGANIZATION NAME
-        //       currentlyLoggedIn.organizationName,
-        //       textAlign: TextAlign.start,
-        //       softWrap: true,
-        //       overflow: TextOverflow
-        //           .ellipsis, // for handling overflow for very long texts
-        //       style: const TextStyle(
-        //         fontSize: 40,
-        //         fontWeight: FontWeight.w500,
-        //         color: Colors.black,
-        //       ),
-        //     )),
-        // Expanded(
-        //     flex: 1,
-        //     child: IconButton(
-        //       icon: const Icon(Icons.edit),
-        //       onPressed: () {
-        //         Navigator.of(context).push(
-        //           MaterialPageRoute(
-        //             builder: (ctx) => EditProfilePage(user: currentlyLoggedIn),
-        //           ),
-        //         );
-        //       },
-        //     ))
-      ]);
 }

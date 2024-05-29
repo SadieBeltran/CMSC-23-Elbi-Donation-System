@@ -9,12 +9,12 @@ class Organization {
   // properties
   String? uid;
   final String organizationName;
-  final List<String> addresses;
+  final List<dynamic> addresses;
   final String contactNumber;
   final String proofOfLegitimacy;
   final bool accepted;
   String? description;
-  List<DonationDrive>? donationDrives;
+  List<dynamic>? donationDrives;
   // constructor
   Organization(
       {this.uid,
@@ -25,17 +25,18 @@ class Organization {
       required this.accepted,
       this.description,
       this.donationDrives});
-
+// make sure to get names right
   factory Organization.fromJson(Map<String, dynamic> json) {
     return Organization(
-        uid: json['uid'],
-        organizationName: json['orgName'],
-        addresses: json['addresses'],
-        contactNumber: json['contactNumber'],
-        proofOfLegitimacy: json['proofOfLegitimacy'],
-        accepted: json['accepted'],
-        description: json['description'],
-        donationDrives: json['donationDrives']);
+      accepted: json['accepted'],
+      addresses: json['addresses'],
+      contactNumber: json['contactNumber'],
+      description: json['description'],
+      donationDrives: json['donationDrives'],
+      organizationName: json['organizationName'],
+      proofOfLegitimacy: json['proofOfLegitimacy'],
+      uid: json['uid'],
+    );
   }
 
   static List<Organization> fromJsonArray(String jsonData) {
