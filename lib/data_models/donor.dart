@@ -28,6 +28,7 @@ class Donor {
   // Factory constructor to instantiate object from json format
   factory Donor.fromJson(Map<String, dynamic> json) {
     return Donor(
+      uid: json['uid'],
       firstName: json['firstName'],
       lastName: json['lastName'],
       userName: json['username'],
@@ -44,6 +45,7 @@ class Donor {
 
   Map<String, dynamic> toJson(Donor donor) {
     return {
+      'uid': donor.uid,
       'firstName': donor.firstName,
       'lastName': donor.lastName,
       'username': donor.userName,

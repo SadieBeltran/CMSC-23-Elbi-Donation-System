@@ -27,6 +27,7 @@ class Organization {
 // make sure to get names right
   factory Organization.fromJson(Map<String, dynamic> json) {
     return Organization(
+      uid: json['uid'],
       accepted: json['accepted'],
       addresses: json['addresses'],
       contactNumber: json['contactNumber'],
@@ -46,6 +47,7 @@ class Organization {
 
   Map<String, dynamic> toJson(Organization organization) {
     return {
+      'uid': organization.uid,
       'organizationName': organization.organizationName,
       'addresses': organization.addresses,
       'contactNumber': organization.contactNumber,
