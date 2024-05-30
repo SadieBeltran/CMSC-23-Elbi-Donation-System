@@ -62,24 +62,24 @@ class UserAuthProvider with ChangeNotifier {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     print(uid);
     // Check Admin collection
-    QuerySnapshot adminSnapshot =
-        await firestore.collection('admins').where('uid', isEqualTo: uid).get();
+    DocumentSnapshot adminSnapshot =
+        await firestore.collection('admins').doc(uid).get();
     if (adminSnapshot != null) {
       print("admin");
       return 'admin';
     }
 
     // Check Donor collection
-    QuerySnapshot donorSnapshot =
-        await firestore.collection('admins').where('uid', isEqualTo: uid).get();
+    DocumentSnapshot donorSnapshot =
+        await firestore.collection('donors').doc(uid).get();
     if (donorSnapshot != null) {
       print("donor");
       return 'donor';
     }
 
     // Check Org collection
-    QuerySnapshot orgSnapshot =
-        await firestore.collection('admins').where('uid', isEqualTo: uid).get();
+    DocumentSnapshot orgSnapshot =
+        await firestore.collection('organizations').doc(uid).get();
     if (orgSnapshot != null) {
       print("org");
       return 'org';
