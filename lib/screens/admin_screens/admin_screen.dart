@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view.dart';
 import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view_item.dart';
 import 'package:elbi_donation_system/data_models/organization.dart';
 import 'package:elbi_donation_system/providers/org_provider.dart';
@@ -14,23 +13,22 @@ class AdminScreen extends StatefulWidget {
   State<AdminScreen> createState() => _AdminScreenState();
 }
 
-// INDEFINITELY LOADS, MIGHT HAVE SOMETHING TO DO WITH STREAMBUILDER BEING USED MORE THAN ONCE
-
 class _AdminScreenState extends State<AdminScreen> {
   int myIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     Stream<QuerySnapshot> orgStream =
-        context.read<OrgListProvider>().approvedOrgs;
-    Stream<QuerySnapshot> unapprovedstream =
-        context.read<OrgListProvider>().unapproved;
+        context.watch<OrgListProvider>().approvedOrgs;
+    Stream<QuerySnapshot> unapprovedStream =
+        context.watch<OrgListProvider>().unapproved;
 
     List<Widget> widgetList = [
-      _approvedOrgsList(orgStream),
-      _approvedOrgsList(unapprovedstream),
+      _orgsList(orgStream),
+      _orgsList(unapprovedStream),
       const AdminDonorScreen(),
     ];
+
     return Scaffold(
       body: Center(child: widgetList[myIndex]),
       bottomNavigationBar: BottomNavigationBar(
@@ -52,40 +50,34 @@ class _AdminScreenState extends State<AdminScreen> {
     );
   }
 
-  StreamBuilder _approvedOrgsList(Stream<QuerySnapshot> org) {
+  Widget _orgsList(Stream<QuerySnapshot> orgStream) {
     return StreamBuilder(
-        stream: org,
-        builder: (context, AsyncSnapshot snapshot) {
-          print("entering if-else");
-          if (snapshot.hasError) {
-            return Center(
-              child: Text("Error encountered! ${snapshot.error}"),
-            );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (!snapshot.hasData) {
-            return const Center(
-              child: Text("No Todos Found"),
-            );
-          }
-
-          print("exited if-else");
+      stream: orgStream,
+      builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text("Error encountered! ${snapshot.error}"),
+          );
+        } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return const Center(
+            child: Text("No Organizations Found"),
+          );
+        } else {
           return ListView.builder(
             itemCount: snapshot.data?.docs.length,
-            itemBuilder: ((context, index) {
-              print("${snapshot.data?.docs[index].id}");
+            itemBuilder: (context, index) {
               Organization org = Organization.fromJson(
                   snapshot.data?.docs[index].data() as Map<String, dynamic>);
-              print(org);
               org.uid = snapshot.data?.docs[index].id;
               return OrganizationsListViewItem(org: org);
-            }),
+            },
           );
-        });
+        }
+      },
+    );
   }
-
-  // Widget get _notApprovedOrgsList =>
-  //     const OrganizationsListView(isApproved: false);
 }

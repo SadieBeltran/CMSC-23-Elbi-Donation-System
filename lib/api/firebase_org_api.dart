@@ -14,16 +14,18 @@ class FirebaseOrgAPI {
   }
 
   Stream<QuerySnapshot> getApprovedOrgs() {
+    print("Getting approved orgs");
     return db
         .collection("organizations")
-        .where(Filter("accepted", isEqualTo: true))
+        .where("accepted", isEqualTo: true)
         .snapshots();
   }
 
   Stream<QuerySnapshot> getUnapprovedOrgs() {
+    print("Getting unapproved orgs");
     return db
         .collection("organizations")
-        .where(Filter("accepted", isEqualTo: false))
+        .where("accepted", isEqualTo: false)
         .snapshots();
   }
 
