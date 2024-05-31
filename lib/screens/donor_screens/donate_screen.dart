@@ -38,7 +38,7 @@ class _DonateScreenState extends State<DonateScreen> {
                 children: [
                   // more details about the org
                   // container for the black background
-                  OrganizationInfo(org: widget.org),
+                  // OrganizationInfo(org: widget.org),
                   // Donation Input Fields
                   const Divider(
                     thickness: 4,

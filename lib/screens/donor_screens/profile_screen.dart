@@ -31,31 +31,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Future.wait([
-          context.read<UserAuthProvider>().getUserType(currentUserId),
-          context.read<OrgListProvider>().getCurrentOrg(currentUserId),
-          context.read<DonorListProvider>().getCurrentDonor(currentUserId)
-        ]),
-        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-          userType = snapshot.data![0];
-          Organization org =
-              Organization.fromJson(snapshot.data![1] as Map<String, dynamic>);
-          Donor donor =
-              Donor.fromJson(snapshot.data![2] as Map<String, dynamic>);
+    return FutureBuilder<String>(
+        future: context.read<UserAuthProvider>().getUserType(currentUserId),
+        builder: (context, AsyncSnapshot<String> snapshot) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Text("Error encountered! ${snapshot.error}"),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (!snapshot.hasData) {
+            return const Center(
+              child: Text("No Todos Found"),
+            );
+          }
+          // BUG: Null check operator used on a null value
+
+          userType = snapshot.data!;
+          print("profile Screen: $userType");
           if (userType == "admin" || userType == "null") {
             Navigator.pop(context);
+          } else if (userType == "org") {
+            return OrganizationInfo(id: currentUserId);
+          } else if (userType == "donor") {
+            return DonorInfo(id: currentUserId);
           }
-// BUG: Null check operator used on a null value
-          return Scaffold(
-              appBar: AppBar(
-                title: const Text("Profile"),
-              ),
-              drawer: const DrawerWidget(),
-              body: SingleChildScrollView(
-                  child: userType == "org"
-                      ? OrganizationInfo(org: org)
-                      : DonorInfo(donor: donor)));
+          return Container();
         });
   }
 }
