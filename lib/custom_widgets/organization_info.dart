@@ -1,5 +1,6 @@
 import 'package:elbi_donation_system/data_models/organization.dart';
 import 'package:elbi_donation_system/providers/org_provider.dart';
+import 'package:elbi_donation_system/screens/organization_screens/edit_org_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -46,7 +47,20 @@ class OrganizationInfo extends StatelessWidget {
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
-                _orgName(org.organizationName),
+                Row(
+                  children: [
+                    _orgName(org.organizationName),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (ctx) => EditProfilePage(user: org),
+                            ),
+                          );
+                        },
+                        icon: const Icon(Icons.edit))
+                  ],
+                ),
                 //Addresses (Make this a ListView.builder, to be changed into Streambuilder later)
                 const Text(
                   "Addresses",

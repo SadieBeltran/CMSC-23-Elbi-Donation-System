@@ -15,7 +15,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
   String? _orgName;
   String? _description;
-  List<String>? _addresses;
+  List<dynamic>? _addresses;
   String? _contactNumber = "";
   List<bool> _enableAddressForm = [];
 
@@ -23,7 +23,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void initState() {
     super.initState();
     _orgName = widget.user.organizationName;
-    _addresses = widget.user.addresses as List<String>;
+    _addresses = widget.user.addresses;
     _description = widget.user.description;
     _contactNumber = widget.user.contactNumber;
     _enableAddressForm =
@@ -58,7 +58,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
           // ),
 
           _orgNameField,
-          addressFields,
+          Column(
+            children: [
+              addressFields,
+            ],
+          ),
           _contactNumField,
           _descriptionFormField,
           const Text("Will implement the rest later...")
