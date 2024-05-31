@@ -1,8 +1,5 @@
-import 'package:elbi_donation_system/data_models/organization.dart';
 import 'package:elbi_donation_system/data_models/donation_drive.dart';
-import 'package:elbi_donation_system/providers/auth_provider.dart';
 import 'package:elbi_donation_system/providers/donation_drive_provider.dart';
-import 'package:elbi_donation_system/screens/authentication_screens/sign_in_page.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +9,8 @@ import 'package:provider/provider.dart';
 // BUGGY: ONSAVED DOESN'T WORK YET MIGHT HAVE SOMETHING TO DO WITH HOW DUMMY ORG WORKS
 
 class CreateDonationDrivePage extends StatefulWidget {
-  final Organization org;
-  const CreateDonationDrivePage({required this.org, super.key});
+  final String orgId; //will add DocumentReference to this
+  const CreateDonationDrivePage({required this.orgId, super.key});
 
   @override
   State<CreateDonationDrivePage> createState() =>
@@ -21,7 +18,6 @@ class CreateDonationDrivePage extends StatefulWidget {
 }
 
 class _CreateDonationDrivePageState extends State<CreateDonationDrivePage> {
-  String currentUserId = "";
   final _formKey = GlobalKey<FormState>();
   String _description = "";
   String _driveName = "";
@@ -29,44 +25,28 @@ class _CreateDonationDrivePageState extends State<CreateDonationDrivePage> {
   DateTime _endDate = DateTime.now();
 
   @override
-  void initState() {
-    super.initState();
-    //get current user id
-    currentUserId = FirebaseAuth.instance.currentUser!.uid;
-    //get corresponding organization based on current user id
-  }
-
-  @override
   Widget build(BuildContext context) {
-    User? loggedIn = context.read<UserAuthProvider>().user;
-    // retrieve which user it is
-
-    if (loggedIn == null) {
-      return const SignInPage();
-    } else {
-      return displayScaffold(context);
-    }
-  }
-
-  Scaffold displayScaffold(context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text('Donate'),
         ),
         drawer: const DrawerWidget(),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              children: [
-                // add upload image form later
-                _driveNameFormField,
-                _descriptionFormField,
-                Row(
-                  children: [_startDateFormField, _endDateFormField],
-                ),
-                _submitButton
-              ],
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  // add upload image form later
+                  _driveNameFormField,
+                  _descriptionFormField,
+                  Row(
+                    children: [_startDateFormField, _endDateFormField],
+                  ),
+                  _submitButton
+                ],
+              ),
             ),
           ),
         ));
@@ -74,6 +54,7 @@ class _CreateDonationDrivePageState extends State<CreateDonationDrivePage> {
 
   Widget get _submitButton => ElevatedButton(
       onPressed: () async {
+        print("Pressed submit button");
         if (_formKey.currentState!.validate()) {
           _formKey.currentState!.save();
           DonationDrive newDonationDrive = DonationDrive(
@@ -87,8 +68,10 @@ class _CreateDonationDrivePageState extends State<CreateDonationDrivePage> {
           // add donation drive to firebase and also add to organization
           await context
               .read<DonationDriveProvider>()
-              .addDrive(newDonationDrive, currentUserId);
-          Navigator.pop(context);
+              .addDrive(newDonationDrive, widget.orgId);
+          if (mounted) {
+            Navigator.pop(context);
+          }
         }
       },
       child: const Text("Finish Editing"));
@@ -106,7 +89,7 @@ class _CreateDonationDrivePageState extends State<CreateDonationDrivePage> {
       if (isStart) {
         _startDate = picked;
       } else {
-        picked.isAfter(_startDate) ? _endDate = picked : null;
+        picked.isAfter(_startDate) ? _endDate = picked : DateTime.now();
       }
     }
   }

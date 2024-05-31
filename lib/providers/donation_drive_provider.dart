@@ -16,6 +16,24 @@ class DonationDriveProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<List<DonationDrive>> getOrgDrives(String id) async {
+    // https://stackoverflow.com/questions/65754873/flutter-firebase-get-stream-of-list-of-document-snapshots-from-list-of-document ??????????
+    List<DonationDrive> driveList = [];
+    List<DocumentReference<Object?>>? s =
+        await firebaseService.getOrgDrives(id);
+    if (s != null) {
+      for (DocumentReference ref in s) {
+        ref.get().then((value) {
+          if (value.exists) {
+            driveList.add(
+                DonationDrive.fromJson(value.data() as Map<String, dynamic>));
+          }
+        });
+      }
+    }
+    return driveList;
+  }
+
   Future<void> addDrive(DonationDrive drive, String id) async {
     String message = await firebaseService.addDrive(drive.toJson(drive), id);
     print(message);

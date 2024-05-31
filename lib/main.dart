@@ -1,5 +1,6 @@
 import 'package:elbi_donation_system/firebase_options.dart';
 import 'package:elbi_donation_system/providers/auth_provider.dart';
+import 'package:elbi_donation_system/providers/donation_drive_provider.dart';
 import 'package:elbi_donation_system/providers/donation_items_provider.dart';
 import 'package:elbi_donation_system/providers/donor_provider.dart';
 import 'package:elbi_donation_system/providers/org_provider.dart';
@@ -35,6 +36,8 @@ Future<void> main() async {
             create: ((context) => UserAuthProvider())),
         provider.ChangeNotifierProvider(
             create: ((context) => DonorListProvider())),
+        provider.ChangeNotifierProvider(
+            create: ((context) => DonationDriveProvider())),
         provider.ChangeNotifierProvider(
           create: ((context) => OrgListProvider()),
         ),
