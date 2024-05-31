@@ -16,14 +16,15 @@ class FirebaseOrgAPI {
   Stream<QuerySnapshot> getApprovedOrgs() {
     return db
         .collection("organizations")
-        .where(Filter("accepted", isEqualTo: true))
+        .where("accepted", isEqualTo: true)
         .snapshots();
   }
 
   Stream<QuerySnapshot> getUnapprovedOrgs() {
+    // possible fix? https://stackoverflow.com/questions/73663837/how-can-i-get-the-document-from-firebase-firestore-with-particular-value-in-fiel
     return db
         .collection("organizations")
-        .where(Filter("accepted", isEqualTo: false))
+        .where("accepted", isEqualTo: false)
         .snapshots();
   }
 

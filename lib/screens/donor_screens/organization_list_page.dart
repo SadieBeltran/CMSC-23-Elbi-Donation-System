@@ -38,9 +38,7 @@ class OrganizationListPage extends StatelessWidget {
         ],
       ),
       drawer: const DrawerWidget(),
-      body: const OrganizationsListView(
-        isApproved: true,
-      ),
+      body: const OrganizationsListView(),
     );
   }
 }

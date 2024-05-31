@@ -5,22 +5,23 @@ import 'package:elbi_donation_system/providers/org_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class OrganizationsListView extends StatefulWidget {
-  const OrganizationsListView({super.key});
+class UnapprovedOrganizationsListView extends StatefulWidget {
+  const UnapprovedOrganizationsListView({super.key});
 
   @override
-  State<OrganizationsListView> createState() => _OrganizationsListViewState();
+  State<UnapprovedOrganizationsListView> createState() =>
+      _UnapprovedOrganizationsListViewState();
 }
 
-class _OrganizationsListViewState extends State<OrganizationsListView> {
+class _UnapprovedOrganizationsListViewState
+    extends State<UnapprovedOrganizationsListView> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: context.read<OrgListProvider>().approvedOrgs,
-        builder: (context, AsyncSnapshot snapshot) {
-          print("Orgs List: entering if-else length...");
+        stream: context.read<OrgListProvider>().unapproved,
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          print("Unapproved Orgs List: entering if-else length...");
           print(snapshot.data?.docs.length);
-          print("entering if-else");
           if (snapshot.hasError) {
             return Center(
               child: Text("Error encountered! ${snapshot.error}"),
