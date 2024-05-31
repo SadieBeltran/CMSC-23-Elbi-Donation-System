@@ -22,29 +22,6 @@ class AdminDonorScreen extends ConsumerWidget {
     } else {}
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Row(
-          children: [
-            Icon(
-              Icons.people_alt_outlined,
-              size: iconSize,
-            ),
-            SizedBox(width: 10),
-            Text('Donors'),
-          ],
-        ),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.person_outline,
-              size: iconSize,
-            ),
-          ),
-        ],
-      ),
       body: bodyContent,
     );
   }

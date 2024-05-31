@@ -38,4 +38,14 @@ class FirebaseOrgAPI {
   Future<DocumentSnapshot<Map<String, dynamic>>> getOrg(String? id) {
     return db.collection("organizations").doc(id).get();
   }
+
+  Future<void> updateOrganizationStatus(String id, bool accepted) async {
+    try {
+      await db.collection("organizations").doc(id).update({
+        'accepted': accepted,
+      });
+    } catch (e) {
+      throw "Error updating organization status: $e";
+    }
+  }
 }
