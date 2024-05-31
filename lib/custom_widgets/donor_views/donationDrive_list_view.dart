@@ -8,6 +8,7 @@ class DonationDriveListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // from org, get list of references from donationDrive
     return SizedBox(
       height: 100,
       child: ListView.builder(
@@ -22,6 +23,5 @@ class DonationDriveListView extends StatelessWidget {
             );
           }),
     );
-    ;
   }
 }

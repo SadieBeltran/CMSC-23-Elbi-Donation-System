@@ -1,11 +1,12 @@
 import 'package:elbi_donation_system/data_models/donation_drive.dart';
-import 'package:elbi_donation_system/data_models/organization.dart';
+import 'package:elbi_donation_system/providers/donation_items_provider.dart';
 import 'package:elbi_donation_system/screens/reusables/edit_donation_drive.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:elbi_donation_system/data_models/donation_item.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class DonationDrivePage extends StatefulWidget {
   final DonationDrive drive;
@@ -219,7 +220,7 @@ class _DonationDrivePageState extends State<DonationDrivePage> {
               address: _address,
               contactNumber: _contactNumber,
               status: 0);
-          print(DonationItem);
+          await context.read<DonationItemProvider>().addDonation(newDonation);
         }
       },
       child: const Text("Sign Up"));

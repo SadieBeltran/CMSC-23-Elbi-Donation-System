@@ -15,6 +15,7 @@ class OrganizationsListViewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Entered orglistviewitem");
     return Card(
       margin: const EdgeInsets.all(8),
       shape: RoundedRectangleBorder(
@@ -38,16 +39,22 @@ class OrganizationsListViewItem extends StatelessWidget {
           children: [
             // Hero() is a built-in flutter widget that allows images to animate
             // to the same image into the next screen
-            Hero(
-              tag: org.id!,
-              child: Image.asset(
-                org.orgImagePath,
-                fit: BoxFit.cover,
-                height: 200,
-                width: double.infinity,
-              ),
-            ),
+            // Hero(
+            //   tag: org.id!,
+            //   child: Image.asset(
+            //     org.orgImagePath,
+            //     fit: BoxFit.cover,
+            //     height: 200,
+            //     width: double.infinity,
+            //   ),
+            // ),
             // Positioned widget positions a widget on top of another widget in the stack
+            Image.network(
+              org.proofOfLegitimacy,
+              fit: BoxFit.cover,
+              height: 200,
+              width: double.infinity,
+            ),
             Positioned(
               // make the child widget container be positioned in the bottom of the
               // previous widget in the stack, and span left to right

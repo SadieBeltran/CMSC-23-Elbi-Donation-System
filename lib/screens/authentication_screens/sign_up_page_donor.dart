@@ -4,21 +4,28 @@
 
   Notes: Will need to establish a cloud firestore db in order to record this. Currently has no backend.
  */
+import 'dart:io';
+
+import 'package:elbi_donation_system/data_models/app_user.dart';
 import 'package:elbi_donation_system/data_models/donor.dart';
+import 'package:elbi_donation_system/providers/app_user_provider.dart';
 import 'package:elbi_donation_system/providers/auth_provider.dart';
+import 'package:elbi_donation_system/screens/authentication_screens/sign_up_page_org.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../../providers/donor_provider.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class SignUpDonorPage extends StatefulWidget {
+  const SignUpDonorPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<SignUpDonorPage> createState() => _SignUpDonorPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _SignUpDonorPageState extends State<SignUpDonorPage> {
   final _formKey = GlobalKey<FormState>();
   bool isOrganization = false; //default is donor.
 
@@ -29,11 +36,24 @@ class _SignUpPageState extends State<SignUpPage> {
   String? lastName;
   String? userName;
   String? password;
+  String? profilePic;
+  int _tapCount = 0;
+  bool _asAdmin = false;
   List<String>? addresses;
+  List<TextEditingController> addressControllers = [TextEditingController()];
   String? contactNo;
   int typeOfUser = 0; //0 means donor, 1 means organization
   String? nameOfOrg;
   // String? proofOfLegitimacy; //I think images should be implemented later on... (kinda a pain to think about)
+  String? usernameError;
+
+  @override
+  void dispose() {
+    for (var controller in addressControllers) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,23 +71,94 @@ class _SignUpPageState extends State<SignUpPage> {
                       heading,
                       emailField,
                       passwordField,
-                      firstNameField,
-                      lastNameField,
+                      // userNameField,
+                      Row(
+                        children: [
+                          firstNameField,
+                          lastNameField,
+                        ],
+                      ),
                       contactNum,
-                      orgName,
-                      submitButton
+                      const Divider(
+                        thickness: 2,
+                        color: Colors.grey,
+                      ),
+                      ...addressFields,
+                      addAddressButton,
+                      const Divider(
+                        thickness: 2,
+                        color: Colors.grey,
+                      ),
+                      // orgName,
+                      submitButton,
+                      signUpOrgButton
                     ],
                   ))),
         ));
   }
 
-  Widget get heading => const Padding(
-        padding: EdgeInsets.only(bottom: 30),
+  Widget get proofOfLegitimacyBtn => Padding(
+      padding: const EdgeInsets.only(top: 2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton.icon(
+              style: TextButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                  side: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                ),
+              ),
+              onPressed: () async {
+                ImagePicker imagePicker = ImagePicker();
+                XFile? file =
+                    await imagePicker.pickImage(source: ImageSource.gallery);
+                print('${file?.path}');
+
+                if (file == null) return;
+                String uniqueFileName =
+                    DateTime.now().millisecondsSinceEpoch.toString();
+
+                Reference referenceRoot = FirebaseStorage.instance.ref();
+                Reference referenceDirImages = referenceRoot.child('images');
+                Reference referenceImageToUpload =
+                    referenceDirImages.child(uniqueFileName);
+                try {
+                  await referenceImageToUpload.putFile(File(file.path));
+                  profilePic = await referenceImageToUpload.getDownloadURL();
+                } catch (err) {
+                  AlertDialog(
+                    title: const Text("Error"),
+                    content: Text("$err"),
+                  );
+                }
+              },
+              label: const Text("Upload profile pic"),
+              icon: const Icon(Icons.camera_alt))
+        ],
+      ));
+
+  Widget get heading => InkWell(
+      onTap: () {
+        setState(() {
+          _tapCount++;
+          if (_tapCount == 5) {
+            typeOfUser = 2;
+            _asAdmin = !_asAdmin;
+            _tapCount = 0;
+          }
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 30),
         child: Text(
-          "Sign Up",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          "Sign Up${_asAdmin ? " as Admin" : ""}",
+          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
-      );
+      ));
 
   Widget get emailField => Padding(
         padding: const EdgeInsets.only(bottom: 30),
@@ -112,8 +203,8 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       );
 
-  Widget get firstNameField => Padding(
-        padding: const EdgeInsets.only(bottom: 30),
+  Widget get firstNameField => Expanded(
+        flex: 1,
         child: TextFormField(
           decoration: const InputDecoration(
               border: OutlineInputBorder(),
@@ -130,8 +221,8 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       );
 
-  Widget get lastNameField => Padding(
-        padding: const EdgeInsets.only(bottom: 30),
+  Widget get lastNameField => Expanded(
+        flex: 1,
         child: TextFormField(
           decoration: const InputDecoration(
               border: OutlineInputBorder(),
@@ -145,6 +236,24 @@ class _SignUpPageState extends State<SignUpPage> {
             }
             return null;
           },
+        ),
+      );
+
+  Widget get signUpOrgButton => Padding(
+        padding: const EdgeInsets.all(30),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // const Text("No account yet?"),
+            TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignUpOrgPage()));
+                },
+                child: const Text("Sign Up as an Organization"))
+          ],
         ),
       );
 
@@ -174,55 +283,80 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       );
 
-  Widget get address => Padding(
+  List<Widget> get addressFields => addressControllers
+      .map((controller) => Padding(
+            padding: const EdgeInsets.only(bottom: 30),
+            child: TextFormField(
+              controller: controller,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                label: Text("Address"),
+                hintText: "Enter your address",
+              ),
+              onSaved: (value) => setState(() {
+                if (value != null && value.isNotEmpty) {
+                  addresses?.add(value);
+                }
+              }),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Address must not be empty";
+                } else if (value.contains('\n')) {
+                  return "Address must not contain new lines!";
+                } else if (value.length > 79) {
+                  return "Address must not exceed 79 characters!";
+                }
+                return null;
+              },
+            ),
+          ))
+      .toList();
+
+  Widget get addAddressButton => Padding(
         padding: const EdgeInsets.only(bottom: 30),
-        child: TextFormField(
-          decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              label: Text('Address'),
-              hintText: "Insert organization name here"),
-          onSaved: (value) => setState(() => addresses?.add(value!)),
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "Address must not be empty";
-            } else if (RegExp(r"^[^\n]{0,79}$").hasMatch(value)) {
-              return "Address must not contain new lines and must not exceed 79 characters!";
-            }
-            return null;
+        child: ElevatedButton(
+          onPressed: () {
+            setState(() {
+              addressControllers.add(TextEditingController());
+            });
           },
+          child: const Text("Add Another Address"),
         ),
       );
-
-  Widget get orgName => textFormFieldGenerator(
-      RegExp(r"^[^\n]{0,79}$"),
-      "Organization Name",
-      "Insert organization name here",
-      "must not contain new lines and must not exceed 79 characters!",
-      nameOfOrg);
 
   Widget get submitButton => ElevatedButton(
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
+          print(
+              "${firstName}, ${lastName}, ${email}, ${addresses}, ${contactNo}");
+
           _formKey.currentState!.save();
+
           await context
               .read<UserAuthProvider>()
               .authService
               .signUp(email!, password!);
+          AppUser newAppUser = AppUser(
+              id: context.read<UserAuthProvider>().uid, userType: typeOfUser);
 
           Donor newDonor = Donor(
               uid: context.read<UserAuthProvider>().uid,
               firstName: firstName!,
               lastName: lastName!,
-              userName: userName!,
-              email: email!,
-              // addresses: addresses!,
+              userName: email!,
+              profilePicture: profilePic,
+              addresses: addressControllers
+                  .map((controller) => controller.text)
+                  .toList(),
               contactNumber: contactNo!);
-          print(newDonor);
-          await context.read<DonorListProvider>().addDonor(newDonor);
+
+          mounted
+              ? await context.read<DonorListProvider>().addDonor(newDonor)
+              : null;
+          mounted
+              ? await context.read<AppUserProvider>().addAppUser(newAppUser)
+              : null;
         }
-        //   // check if the widget hasn't been disposed of after an asynchronous action
-        //   if (mounted) Navigator.pop(context); //go back to the signin page?
-        // }
       },
       child: const Text("Sign Up"));
 

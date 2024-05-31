@@ -2,9 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthAPI {
   static final FirebaseAuth auth = FirebaseAuth.instance;
-  // Stream<User?> getUser() {
-  //   return auth.authStateChanges();
-  // }
+
   User? getUser() {
     return auth.currentUser;
   }
@@ -19,12 +17,12 @@ class FirebaseAuthAPI {
 
   Future<String?> signIn(String email, String password) async {
     try {
+      print("$email, $password");
       await auth.signInWithEmailAndPassword(email: email, password: password);
-      return "";
+      print("Successfully signed in");
+      return "success";
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-email') {
-        //possible to return something more useful
-        //than just print an error message to improve UI/UX
         return e.message;
       } else if (e.code == 'invalid-credential') {
         return e.message;
@@ -34,6 +32,7 @@ class FirebaseAuthAPI {
     }
   }
 
+  
   Future<void> signUp(String email, String password) async {
     UserCredential credential;
     try {
@@ -42,12 +41,8 @@ class FirebaseAuthAPI {
         password: password,
       );
 
-      //let's print the object returned by signInWithEmailAndPassword
-      //you can use this object to get the user's id, email, etc.\
       print(credential);
     } on FirebaseAuthException catch (e) {
-      //possible to return something more useful
-      //than just print an error message to improve UI/UX
       if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
       }

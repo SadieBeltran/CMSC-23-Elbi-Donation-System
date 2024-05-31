@@ -4,8 +4,11 @@
   
   Notes: Stole this from week 9 uwu.
  */
+import 'package:elbi_donation_system/providers/auth_provider.dart';
+import 'package:elbi_donation_system/screens/authentication_screens/sign_up_page_donor.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -101,6 +104,23 @@ class _SignInPageState extends State<SignInPage> {
   Widget get submitButton => ElevatedButton(
       onPressed: () async {
         // Do nothing yet
+        if (_formKey.currentState!.validate()) {
+          print("pressed sign in button");
+          _formKey.currentState!.save();
+          bool success =
+              await context.read<UserAuthProvider>().signInAndNavigate(
+                    context,
+                    email!,
+                    password!,
+                  );
+          print("success: ${success}");
+          if (!success) {
+            setState(() {
+              showSignInErrorMessage = true;
+            });
+          }
+          print("successfully signed in");
+        }
       },
       child: const Text("Sign In"));
 
@@ -112,10 +132,10 @@ class _SignInPageState extends State<SignInPage> {
             const Text("No account yet?"),
             TextButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => const SignUpPage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignUpDonorPage()));
                 },
                 child: const Text("Sign Up"))
           ],

@@ -1,52 +1,41 @@
 import 'dart:convert';
 
 import 'package:uuid/uuid.dart';
-import 'app_user.dart';
 
 // utility object that generates unique id
 const uuid = Uuid();
 
-class Donor extends AppUser {
-  // properties
+class Donor {
+  //PROPERTIES
   String? uid;
+  String firstName;
+  String lastName;
+  String userName;
+  List<String> addresses;
+  String? profilePicture;
+  String contactNumber;
   // constructor
   Donor({
     this.uid,
-    // required this.name,
-    required super.firstName,
-    required super.lastName,
-    required super.userName,
-    super.userType,
+    required this.firstName,
+    required this.lastName,
+    required this.userName,
     // required this.password,
-    // required this.addresses,
-    required super.contactNumber,
-    required super.email,
-  }) {
-    // if the value of id is null, then the app will auto fill the id field
-    uid = uid ?? uuid.v4();
-    super.userType = 0;
-  }
-
-  // // properties
-  // // final Map<String, String> name;
-  // final String firstName;
-  // final String lastName;
-  // final String username;
-  // // final String password;
-  // // final List<String> addresses;
-  // final String contactNumber;
-
+    required this.addresses,
+    this.profilePicture,
+    required this.contactNumber,
+  });
   // Factory constructor to instantiate object from json format
   factory Donor.fromJson(Map<String, dynamic> json) {
     return Donor(
-        uid: json['id'],
-        firstName: json['firstName'],
-        lastName: json['lastName'],
-        userName: json['username'],
-        userType: json['userType'],
-        // addresses: json['addresses'],
-        contactNumber: json['contactNumer'],
-        email: json['email']);
+      uid: json['uid'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      userName: json['username'],
+      profilePicture: json['profilePic'],
+      addresses: json['addresses'],
+      contactNumber: json['contactNumer'],
+    );
   }
 
   static List<Donor> fromJsonArray(String jsonData) {
@@ -56,11 +45,11 @@ class Donor extends AppUser {
 
   Map<String, dynamic> toJson(Donor donor) {
     return {
-      'id': donor.id,
+      'uid': donor.uid,
       'firstName': donor.firstName,
       'lastName': donor.lastName,
       'username': donor.userName,
-      // 'addresses': donor.addresses,
+      'addresses': donor.addresses,
       'contactNumber': contactNumber
     };
   }

@@ -1,16 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elbi_donation_system/data_models/donation_drive.dart';
 import 'package:elbi_donation_system/screens/donor_screens/donation_drive.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DonationDriveListViewItem extends StatelessWidget {
-  final DonationDrive drive;
+  final DocumentReference drive;
   const DonationDriveListViewItem({required this.drive, super.key});
 
   @override
   Widget build(BuildContext context) {
+    // convert the document reference into an object
+    DonationDrive donation =
+        DonationDrive.fromJson(drive as Map<String, dynamic>);
     return Card(
-      
       margin: const EdgeInsets.all(8),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
@@ -22,7 +25,7 @@ class DonationDriveListViewItem extends StatelessWidget {
           // go to donation drive screen
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (ctx) => DonationDrivePage(drive: drive),
+              builder: (ctx) => DonationDrivePage(drive: donation),
             ),
           );
         },
@@ -50,8 +53,12 @@ class DonationDriveListViewItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // const SizedBox(height: ),
-                    name,
-                    duration,
+                    name(donation.driveName),
+                    duration(donation.startDate, donation.endDate),
+                    ListTile(
+                      leading: const Text("Status: "),
+                      title: status(donation.status),
+                    )
                   ],
                 ),
               ),
@@ -74,36 +81,41 @@ class DonationDriveListViewItem extends StatelessWidget {
     return "";
   }
 
-  Widget get status => ListTile(
-      leading: const Text("Status:"),
-      title: Text(
-        getStatus(drive.status),
-      ));
+  Widget status(int driveStatus) {
+    return ListTile(
+        leading: const Text("Status:"),
+        title: Text(
+          getStatus(driveStatus),
+        ));
+  }
 
-  Widget get name => Text(
-        drive.driveName,
-        textAlign: TextAlign.start,
-        softWrap: true,
-        overflow:
-            TextOverflow.ellipsis, // for handling overflow for very long texts
-        style: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      );
+  Widget name(String name) {
+    return Text(
+      name,
+      textAlign: TextAlign.start,
+      softWrap: true,
+      overflow:
+          TextOverflow.ellipsis, // for handling overflow for very long texts
+      style: const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: Colors.white,
+      ),
+    );
+  }
 
-  Widget get duration => Row(
-        children: [
-          Expanded(
-              child: ListTile(
-                  leading: const Text("Start"),
-                  title:
-                      Text(DateFormat('yyyy-MM-dd').format(drive.startDate)))),
-          Expanded(
-              child: ListTile(
-                  leading: const Text("End:"),
-                  title: Text(DateFormat('yyyy-MM-dd').format(drive.endDate))))
-        ],
-      );
+  Widget duration(DateTime startDate, DateTime endDate) {
+    return Row(
+      children: [
+        Expanded(
+            child: ListTile(
+                leading: const Text("Start"),
+                title: Text(DateFormat('yyyy-MM-dd').format(startDate)))),
+        Expanded(
+            child: ListTile(
+                leading: const Text("End:"),
+                title: Text(DateFormat('yyyy-MM-dd').format(endDate))))
+      ],
+    );
+  }
 }

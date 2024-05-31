@@ -1,6 +1,12 @@
 import 'package:elbi_donation_system/firebase_options.dart';
 import 'package:elbi_donation_system/providers/auth_provider.dart';
+import 'package:elbi_donation_system/providers/donation_items_provider.dart';
 import 'package:elbi_donation_system/providers/donor_provider.dart';
+import 'package:elbi_donation_system/providers/org_provider.dart';
+import 'package:elbi_donation_system/screens/admin_screens/admin_screen.dart';
+import 'package:elbi_donation_system/screens/authentication_screens/sign_in_page.dart';
+import 'package:elbi_donation_system/screens/organization_screens/edit_org_profile.dart';
+import 'package:elbi_donation_system/screens/organization_screens/org_home_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,9 +34,15 @@ Future<void> main() async {
         provider.ChangeNotifierProvider(
             create: ((context) => UserAuthProvider())),
         provider.ChangeNotifierProvider(
-            create: ((context) => DonorListProvider()))
+            create: ((context) => DonorListProvider())),
+        provider.ChangeNotifierProvider(
+          create: ((context) => OrgListProvider()),
+        ),
+        provider.ChangeNotifierProvider(
+          create: ((context) => DonationItemProvider()),
+        )
       ],
-      child: ProviderScope(
+      child: const ProviderScope(
         child: ElbiUnity(),
       ),
     ),
@@ -43,13 +55,24 @@ class ElbiUnity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: GoogleFonts.latoTextTheme(
-          Theme.of(context).textTheme,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          textTheme: GoogleFonts.latoTextTheme(
+            Theme.of(context).textTheme,
+          ),
         ),
-      ),
-      home: const DonorHomePage(),
-    );
+        home: const SignInPage(),
+        initialRoute: "/signInPage",
+        onGenerateRoute: (settings) {
+          if (settings.name == "/donorHome") {
+            return MaterialPageRoute(builder: (context) => DonorHomePage());
+          }
+          if (settings.name == "/adminHome") {
+            return MaterialPageRoute(builder: (context) => AdminScreen());
+          }
+          if (settings.name == "/orgHome") {
+            return MaterialPageRoute(builder: (context) => OrgHomePage());
+          }
+        });
   }
 }

@@ -1,39 +1,61 @@
-import 'package:elbi_donation_system/data_models/donation_drive.dart';
+import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 // utility object that generates unique id
 const uuid = Uuid();
 
 class Organization {
+  // properties
+  String? uid;
+  final String organizationName;
+  final List<dynamic> addresses;
+  final String contactNumber;
+  final String proofOfLegitimacy;
+  final bool accepted;
+  String? description;
+  List<DocumentReference>? donationDrives;
   // constructor
   Organization(
-      {this.id,
-      required this.name,
-      required this.username,
-      required this.password,
+      {this.uid,
+      required this.organizationName,
       required this.addresses,
       required this.contactNumber,
-      required this.organizationName,
+      required this.proofOfLegitimacy,
+      required this.accepted,
       this.description,
-      required this.proofsOfLegitimacy,
-      required this.orgImagePath,
-      this.donationDrives}) {
-    // if the value of id is null, then the app will auto fill the id field
-    id = id ?? uuid.v4();
+      this.donationDrives});
+// make sure to get names right
+  factory Organization.fromJson(Map<String, dynamic> json) {
+    return Organization(
+      uid: json['uid'],
+      accepted: json['accepted'],
+      addresses: json['addresses'],
+      contactNumber: json['contactNumber'],
+      description: json['description'],
+      donationDrives: json['donationDrives'],
+      organizationName: json['organizationName'],
+      proofOfLegitimacy: json['proofOfLegitimacy'],
+    );
   }
 
-  // properties
-  String? id;
-  final String name;
-  final String username;
-  final String password;
-  final List<String> addresses;
-  final String contactNumber;
-  final String organizationName;
-  String? description;
-  // not sure sa data type or pag handle ng image in general
-  // sa ngayon paths to those images in the assets folder muna i-store nitong class
-  final List<String> proofsOfLegitimacy;
-  final String orgImagePath;
-  List<DonationDrive>? donationDrives;
+  static List<Organization> fromJsonArray(String jsonData) {
+    final Iterable<dynamic> data = jsonDecode(jsonData);
+    return data
+        .map<Organization>((dynamic d) => Organization.fromJson(d))
+        .toList();
+  }
+
+  Map<String, dynamic> toJson(Organization organization) {
+    return {
+      'uid': organization.uid,
+      'organizationName': organization.organizationName,
+      'addresses': organization.addresses,
+      'contactNumber': organization.contactNumber,
+      'proofOfLegitimacy': organization.proofOfLegitimacy,
+      'accepted': organization.accepted,
+      'description': organization.description,
+      'donationDrives': organization.donationDrives
+    };
+  }
 }

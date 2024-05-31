@@ -1,61 +1,35 @@
 // this is the model for user.
-import 'donation_item.dart';
-import 'donation_drive.dart';
+// import 'donation_item.dart';
+// import 'donation_drive.dart';
+
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AppUser {
   String? id;
-  String firstName;
-  String lastName;
-  String email;
-  String userName;
-  int? userType; //0 by default, 1 if organization, 2 if admin
-  List<String>? userAddress;
-  String contactNumber;
+  int userType;
+  AppUser({this.id, required this.userType});
 
-  AppUser(
-      {this.id,
-      required this.firstName,
-      required this.lastName,
-      required this.email,
-      required this.userName,
-      required this.userType,
-      this.userAddress,
-      required this.contactNumber});
-}
-
-class Organization extends AppUser {
-  String? orgId;
-  List<DonationItem>? donatedItems;
-  List<DonationDrive>? donationDrives;
-  String? organizationDescription;
-  bool isVerified; //if org is approved by admin or not
-
-  Organization({
-    super.userType, //usertype is 1 for this
-    required super.firstName,
-    required super.lastName,
-    required super.email,
-    required super.userName,
-    required super.contactNumber,
-    this.orgId,
-    this.donatedItems,
-    this.donationDrives,
-    this.organizationDescription,
-    required this.isVerified,
-  }) {
-    super.userType = 1;
+  factory AppUser.fromJson(Map<String, dynamic> json) {
+    return AppUser(
+      userType: json['userType'],
+    );
   }
-}
 
-class Admin extends AppUser {
-  Admin({
-    super.userType, //usertype is 2 for this
-    required super.firstName,
-    required super.lastName,
-    required super.email,
-    required super.userName,
-    required super.contactNumber,
-  }) {
-    super.userType = 2;
+  static List<AppUser> fromJsonArray(String jsonData) {
+    final Iterable<dynamic> data = jsonDecode(jsonData);
+    return data.map<AppUser>((dynamic d) => AppUser.fromJson(d)).toList();
+  }
+
+  factory AppUser.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+    return AppUser(userType: data['userType']);
+  }
+
+//Will be used to add to db by firebase_Users_api.dart
+  Map<String, dynamic> toJson(AppUser appUser) {
+    return {'userType': appUser.userType};
   }
 }
