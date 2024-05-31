@@ -8,6 +8,7 @@ class OrganizationListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("org list page");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

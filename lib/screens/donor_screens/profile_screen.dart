@@ -26,42 +26,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //determine if user is org or not
   //if org, display orgcontents,
   //if user, display profile
-  String currentUserId = "";
-  String? userType = "";
-  Organization? org = null;
-  Donor? donor = null;
-
-  @override
-  void initState() async {
-    super.initState();
-    currentUserId = FirebaseAuth.instance.currentUser!.uid;
-    userType =
-        await context.read<UserAuthProvider>().getUserType(currentUserId);
-    if (userType == "org") {
-      mounted
-          ? org = context.read<OrgListProvider>().getCurrentOrg(currentUserId)
-          : null;
-    } else if (userType == "donor") {
-      mounted
-          ? donor =
-              context.read<DonorListProvider>().getCurrentDonor(currentUserId)
-          : null;
-    } else if (userType == null || userType == "admin") {
-      print("how the fuck did you get here");
-      Navigator.pop(context);
-    }
-  }
+  String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+  String userType = "";
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Profile"),
-        ),
-        drawer: const DrawerWidget(),
-        body: SingleChildScrollView(
-            child: userType == "org"
-                ? OrganizationInfo(org: org!)
-                : DonorInfo(donor: donor!)));
+    return FutureBuilder(
+        future: Future.wait([
+          context.read<UserAuthProvider>().getUserType(currentUserId),
+          context.read<OrgListProvider>().getCurrentOrg(currentUserId),
+          context.read<DonorListProvider>().getCurrentDonor(currentUserId)
+        ]),
+        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+          userType = snapshot.data![0];
+          Organization org =
+              Organization.fromJson(snapshot.data![1] as Map<String, dynamic>);
+          Donor donor =
+              Donor.fromJson(snapshot.data![2] as Map<String, dynamic>);
+          if (userType == "admin" || userType == "null") {
+            Navigator.pop(context);
+          }
+// BUG: Null check operator used on a null value
+          return Scaffold(
+              appBar: AppBar(
+                title: const Text("Profile"),
+              ),
+              drawer: const DrawerWidget(),
+              body: SingleChildScrollView(
+                  child: userType == "org"
+                      ? OrganizationInfo(org: org)
+                      : DonorInfo(donor: donor)));
+        });
   }
 }

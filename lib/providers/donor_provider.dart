@@ -26,7 +26,14 @@ class DonorListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Donor getCurrentDonor(String id) {
-    return Donor.fromJson(firebaseService.getDonor(id) as Map<String, dynamic>);
+  Future<Donor> getCurrentDonor(String id) async {
+    // BUG: see getCurrentOrg for note
+    DocumentSnapshot<Map<String, dynamic>> snap =
+        await firebaseService.getDonor(id);
+    if (snap.exists) {
+      return Donor.fromJson(snap.data() as Map<String, dynamic>);
+    } else {
+      throw ("From getCurrentDonor: ID does not exist");
+    }
   }
 }

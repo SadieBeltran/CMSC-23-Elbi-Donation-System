@@ -23,6 +23,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
     return StreamBuilder(
         stream: userStream,
         builder: (context, snapshot) {
+          print("in Donor home page");
           if (snapshot.hasError) {
             return Scaffold(
               body: Center(
@@ -39,7 +40,7 @@ class _DonorHomePageState extends State<DonorHomePage> {
             return const SignInPage();
           }
 
-          // if user is logged in, display the scaffold containing the streambuilder for the todos
+          // if user is logged in, check what type of user they are
           return const OrganizationListPage();
         });
   }

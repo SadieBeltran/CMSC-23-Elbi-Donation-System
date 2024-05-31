@@ -46,7 +46,7 @@ class UserAuthProvider with ChangeNotifier {
     if (message == "success") {
       String? userType = await getUserType(authService.getUserUID()!);
       print("userType: ${userType}");
-      if (userType != null) {
+      if (userType != "null") {
         print("NAVIGATING");
         navigateToHomePage(context, userType);
         return true;
@@ -58,21 +58,21 @@ class UserAuthProvider with ChangeNotifier {
     }
   }
 
-  Future<String?> getUserType(String uid) async {
+// FIX: return type defaulting to "admin" https://firebase.google.com/docs/reference/android/com/google/firebase/firestore/DocumentSnapshot
+  Future<String> getUserType(String uid) async {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     print(uid);
     // Check Admin collection
     DocumentSnapshot adminSnapshot =
         await firestore.collection('admins').doc(uid).get();
-    if (adminSnapshot != null) {
+    if (adminSnapshot.exists) {
       print("admin");
       return 'admin';
     }
-
     // Check Donor collection
     DocumentSnapshot donorSnapshot =
         await firestore.collection('donors').doc(uid).get();
-    if (donorSnapshot != null) {
+    if (donorSnapshot.exists) {
       print("donor");
       return 'donor';
     }
@@ -80,31 +80,31 @@ class UserAuthProvider with ChangeNotifier {
     // Check Org collection
     DocumentSnapshot orgSnapshot =
         await firestore.collection('organizations').doc(uid).get();
-    if (orgSnapshot != null) {
+    if (orgSnapshot.exists) {
       print("org");
       return 'org';
     }
 
-    return null; // If user type is not found
+    return "null"; // If user type is not found
   }
 }
 
-  void navigateToHomePage(BuildContext context, String userType) {
-    // Implement navigation based on user type
-    print("userType: ${userType}");
-    switch (userType) {
-      case 'admin':
-        Navigator.pushNamed(context, '/adminHome');
-        break;
-      case 'donor':
-        Navigator.pushNamed(context, '/donorHome');
-        break;
-      case 'org':
-        Navigator.pushNamed(context, '/orgHome');
-        break;
-      default:
-        // Handle unknown user type
-        print("UNKNOWN");
-        break;
-    }
+void navigateToHomePage(BuildContext context, String userType) {
+  // Implement navigation based on user type
+  print("userType: ${userType}");
+  switch (userType) {
+    case 'admin':
+      Navigator.pushNamed(context, '/adminHome');
+      break;
+    case 'donor':
+      Navigator.pushNamed(context, '/donorHome');
+      break;
+    case 'org':
+      Navigator.pushNamed(context, '/orgHome');
+      break;
+    default:
+      // Handle unknown user type
+      print("UNKNOWN");
+      break;
   }
+}

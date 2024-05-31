@@ -1,4 +1,9 @@
+import 'package:elbi_donation_system/custom_widgets/organization_info.dart';
+import 'package:elbi_donation_system/data_models/organization.dart';
+import 'package:elbi_donation_system/providers/auth_provider.dart';
+import 'package:elbi_donation_system/screens/donor_screens/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OrgHomePage extends StatefulWidget {
   const OrgHomePage({super.key});
@@ -8,15 +13,28 @@ class OrgHomePage extends StatefulWidget {
 }
 
 class _OrgHomePageState extends State<OrgHomePage> {
+  int myIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    int myIndex = 0;
     List<Widget> widgetList = const [
       Text("Donation Page"),
       Text("Donation Drive list"),
-      Text("Profile")
+      ProfileScreen()
     ];
     return Scaffold(
+        appBar: AppBar(
+          title: const Text('Welcome, organization!'),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  // logout
+                  context.read<UserAuthProvider>().signOut();
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.logout))
+          ],
+        ),
         body: Center(child: widgetList[myIndex]),
         bottomNavigationBar: BottomNavigationBar(
           onTap: (index) {

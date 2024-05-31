@@ -38,9 +38,14 @@ class OrgListProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Organization getCurrentOrg(String id) {
-    return Organization.fromJson(
-        firebaseService.getOrg(id) as Map<String, dynamic>);
+  Future<Organization> getCurrentOrg(String id) async {
+    // BUG: Unhandled Exception: type 'Future<DocumentSnapshot<Map<String, dynamic>>>' is not a subtype of type 'Map<String, dynamic>' in type cast
+    DocumentSnapshot<Map<String, dynamic>> snap =
+        await firebaseService.getOrg(id);
+    if (snap.exists) {
+      return Organization.fromJson(snap.data() as Map<String, dynamic>);
+    }
+    throw ("From getCurrentOrg: ID does not exist!");
   }
 
   Future<void> addOrg(Organization organization) async {
