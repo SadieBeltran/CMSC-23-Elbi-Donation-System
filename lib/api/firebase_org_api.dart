@@ -14,6 +14,7 @@ class FirebaseOrgAPI {
   }
 
   Stream<QuerySnapshot> getApprovedOrgs() {
+    print("Getting approved orgs");
     return db
         .collection("organizations")
         .where("accepted", isEqualTo: true)
@@ -22,6 +23,7 @@ class FirebaseOrgAPI {
 
   Stream<QuerySnapshot> getUnapprovedOrgs() {
     // possible fix? https://stackoverflow.com/questions/73663837/how-can-i-get-the-document-from-firebase-firestore-with-particular-value-in-fiel
+    print("Getting unapproved orgs");
     return db
         .collection("organizations")
         .where("accepted", isEqualTo: false)
