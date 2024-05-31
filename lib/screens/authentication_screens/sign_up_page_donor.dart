@@ -336,6 +336,7 @@ class _SignUpDonorPageState extends State<SignUpDonorPage> {
               .read<UserAuthProvider>()
               .authService
               .signUp(email!, password!);
+
           AppUser newAppUser = AppUser(
               id: context.read<UserAuthProvider>().uid, userType: typeOfUser);
 
@@ -356,6 +357,7 @@ class _SignUpDonorPageState extends State<SignUpDonorPage> {
           mounted
               ? await context.read<AppUserProvider>().addAppUser(newAppUser)
               : null;
+          mounted ? Navigator.pop(context) : null;
         }
       },
       child: const Text("Sign Up"));

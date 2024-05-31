@@ -67,6 +67,9 @@ class ElbiUnity extends StatelessWidget {
         home: const SignInPage(),
         initialRoute: "/signInPage",
         onGenerateRoute: (settings) {
+          if (settings.name == "/signInPage") {
+            return MaterialPageRoute(builder: (context) => SignInPage());
+          }
           if (settings.name == "/donorHome") {
             return MaterialPageRoute(builder: (context) => DonorHomePage());
           }

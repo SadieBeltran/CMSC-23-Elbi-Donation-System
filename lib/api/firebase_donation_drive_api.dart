@@ -26,12 +26,14 @@ class FirebaseDonationDriveAPI {
 
 // https://stackoverflow.com/questions/64327490/flutter-firebase-retrieve-a-list-of-documents-limited-to-ids-in-an-array
   Future<List<DocumentReference<Object?>>?> getOrgDrives(String id) async {
-    List<DocumentReference<Object?>>? refs;
+    List<DocumentReference>? refs;
     await db.collection("organizations").doc(id).get().then(
       (value) {
         if (value.exists) {
           var e = Organization.fromJson(value.data() as Map<String, dynamic>);
-          refs = e.donationDrives;
+          if (e.donationDrives != null) {
+            refs = [for (var x in e.donationDrives!) x as DocumentReference];
+          }
         }
       },
     );
