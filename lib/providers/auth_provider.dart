@@ -87,6 +87,15 @@ class UserAuthProvider with ChangeNotifier {
 
     return "null"; // If user type is not found
   }
+
+  // Future<void> deleteUserWithUid(String uid) async {
+  //   try {
+  //     await authService.deleteUser(uid);
+  //   } catch (e) {
+  //     print('Failed to delete user: $e');
+  //     throw e;
+  //   }
+  // }
 }
 
 void navigateToHomePage(BuildContext context, String userType) {
