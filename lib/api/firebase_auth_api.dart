@@ -32,7 +32,6 @@ class FirebaseAuthAPI {
     }
   }
 
-  
   Future<void> signUp(String email, String password) async {
     UserCredential credential;
     try {
@@ -54,4 +53,8 @@ class FirebaseAuthAPI {
   Future<void> signOut() async {
     await auth.signOut();
   }
+
+  // Future<void> deleteUser(String uid) async {
+  //   await auth.deleteUser(uid);
+  // }
 }

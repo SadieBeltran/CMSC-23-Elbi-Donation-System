@@ -44,6 +44,14 @@ class OrgListProvider with ChangeNotifier {
   //   print("successfully fetched orgs");
   //   notifyListeners();
   // }
+  Future<void> deleteOrganization(String id) async {
+    try {
+      await firebaseService.deleteOrganizationDocument(id);
+      notifyListeners();
+    } catch (e) {
+      throw "Error deleting organization: $e";
+    }
+  }
 
   Future<Organization> getCurrentOrg(String id) async {
     // BUG: Unhandled Exception: type 'Future<DocumentSnapshot<Map<String, dynamic>>>' is not a subtype of type 'Map<String, dynamic>' in type cast

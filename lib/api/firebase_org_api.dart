@@ -48,4 +48,12 @@ class FirebaseOrgAPI {
       throw "Error updating organization status: $e";
     }
   }
+
+  Future<void> deleteOrganizationDocument(String id) async {
+    try {
+      await db.collection('organizations').doc(id).delete();
+    } catch (e) {
+      throw "Error deleting organization document: $e";
+    }
+  }
 }

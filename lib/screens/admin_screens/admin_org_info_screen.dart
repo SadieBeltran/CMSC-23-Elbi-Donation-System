@@ -1,5 +1,7 @@
 import 'package:elbi_donation_system/data_models/organization.dart';
+import 'package:elbi_donation_system/providers/auth_provider.dart';
 import 'package:elbi_donation_system/providers/org_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,8 +37,20 @@ class _AdminOrgInfoPageState extends State<AdminOrgInfoPage> {
     }
   }
 
-  void _declineApproval() {
-    // Handle the decline approval logic here if needed
+  void _declineApproval() async {
+    try {
+      await Provider.of<OrgListProvider>(context, listen: false)
+          .deleteOrganization(widget.org.uid!);
+      // await Provider.of<UserAuthProvider>(context, listen: false).deleteCurrentUserAccount();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Organization and account deleted successfully'),
+      ));
+      Navigator.pop(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Failed to delete organization and account: $e'),
+      ));
+    }
   }
 
   @override
