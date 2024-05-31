@@ -26,22 +26,7 @@ class DonorListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<bool> usernameExists(String username) async {
-  //   return await firebaseService.usernameExists(username);
-  // }
-
-  // void editTodo(String id, String newTitle) async {
-  //   await firebaseService.editTodo(id, newTitle);
-  //   notifyListeners();
-  // }
-
-  // void deleteTodo(String id) async {
-  //   await firebaseService.deleteTodo(id);
-  //   notifyListeners();
-  // }
-
-  // void toggleStatus(String id, bool status) async {
-  //   await firebaseService.toggleStatus(id, status);
-  //   notifyListeners();
-  // }
+  Donor getCurrentDonor(String id) {
+    return Donor.fromJson(firebaseService.getDonor(id) as Map<String, dynamic>);
+  }
 }

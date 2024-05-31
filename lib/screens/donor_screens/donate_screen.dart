@@ -31,18 +31,6 @@ class _DonateScreenState extends State<DonateScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Org Details
-            // org image
-            // Hero(
-            //   tag: widget.org.id!,
-            //   child: Image.asset(
-            //     widget.org.orgImagePath,
-            //     height: 250,
-            //     width: double.infinity,
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
-            // container for adding margin
             Container(
               margin: const EdgeInsets.all(8),
               child: Column(

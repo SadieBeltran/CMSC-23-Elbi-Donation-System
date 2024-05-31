@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view.dart';
 import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view_item.dart';
 import 'package:elbi_donation_system/data_models/organization.dart';
+import 'package:elbi_donation_system/providers/auth_provider.dart';
 import 'package:elbi_donation_system/providers/org_provider.dart';
 import 'package:elbi_donation_system/screens/admin_screens/admin_donor_screen.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +32,18 @@ class _AdminScreenState extends State<AdminScreen> {
       const AdminDonorScreen(),
     ];
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Admin'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                // logout
+                context.read<UserAuthProvider>().signOut();
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.logout))
+        ],
+      ),
       body: Center(child: widgetList[myIndex]),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {

@@ -3,6 +3,7 @@ import 'package:elbi_donation_system/screens/admin_screens/admin_screen.dart';
 import 'package:elbi_donation_system/screens/authentication_screens/sign_in_page.dart';
 import 'package:elbi_donation_system/screens/authentication_screens/sign_up_page_donor.dart';
 import 'package:elbi_donation_system/screens/donor_screens/donor_home_page.dart';
+import 'package:elbi_donation_system/screens/organization_screens/org_home_page.dart';
 import 'package:flutter/material.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -44,6 +45,12 @@ class DrawerWidget extends StatelessWidget {
           onTap: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const AdminScreen()));
+          }),
+      ListTile(
+          title: const Text("Org Home Screen"),
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const OrgHomePage()));
           }),
     ]));
   }

@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:intl/intl.dart';
+
 import 'donor.dart';
 
 // model for donation-drives in elbi-donation system, based on model in sheets.
@@ -25,10 +27,9 @@ class DonationDrive {
   factory DonationDrive.fromJson(Map<String, dynamic> json) {
     return DonationDrive(
         description: json['description'],
-        driveId: json['driveId'],
         driveName: json['driveName'],
-        startDate: json['startDate'],
-        endDate: json['endDate'],
+        startDate: DateTime.fromMicrosecondsSinceEpoch(json['startDate']),
+        endDate: DateTime.fromMicrosecondsSinceEpoch(json['endDate']),
         status: json['status']);
   }
 
@@ -47,7 +48,6 @@ class DonationDrive {
       'startDate': drive.startDate,
       'endDate': drive.endDate,
       'status': drive.status,
-      // 'todos': Users.todos
     };
   }
 }

@@ -1,10 +1,14 @@
-import 'package:elbi_donation_system/custom_widgets/donor_views/donationDrive_list_view.dart';
+import 'package:elbi_donation_system/screens/donor_screens/donor_info.dart';
 import 'package:elbi_donation_system/custom_widgets/organization_info.dart';
+import 'package:elbi_donation_system/data_models/donor.dart';
 import 'package:elbi_donation_system/data_models/organization.dart';
-import 'package:elbi_donation_system/screens/organization_screens/create_donation_drive.dart';
+import 'package:elbi_donation_system/providers/auth_provider.dart';
+import 'package:elbi_donation_system/providers/donor_provider.dart';
+import 'package:elbi_donation_system/providers/org_provider.dart';
 import 'package:elbi_donation_system/screens/reusables/drawer_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -18,69 +22,46 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   // var currentlyLoggedIn = dummyOrganizations[0];
+  //GET CUYRRENT USER
+  //determine if user is org or not
+  //if org, display orgcontents,
+  //if user, display profile
+  String currentUserId = "";
+  String? userType = "";
+  Organization? org = null;
+  Donor? donor = null;
+
+  @override
+  void initState() async {
+    super.initState();
+    currentUserId = FirebaseAuth.instance.currentUser!.uid;
+    userType =
+        await context.read<UserAuthProvider>().getUserType(currentUserId);
+    if (userType == "org") {
+      mounted
+          ? org = context.read<OrgListProvider>().getCurrentOrg(currentUserId)
+          : null;
+    } else if (userType == "donor") {
+      mounted
+          ? donor =
+              context.read<DonorListProvider>().getCurrentDonor(currentUserId)
+          : null;
+    } else if (userType == null || userType == "admin") {
+      print("how the fuck did you get here");
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Profile"),
+          title: const Text("Profile"),
         ),
         drawer: const DrawerWidget(),
         body: SingleChildScrollView(
-            // child: orgInfo(currentlyLoggedIn),
-            ));
-  }
-
-  Widget orgInfo(Organization org) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Hero(
-        //   tag: org.id!,
-        //   child: Image.asset(
-        //     org.orgImagePath,
-        //     height: 250,
-        //     width: double.infinity,
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
-        Container(
-          margin: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              OrganizationInfo(org: org),
-              Row(children: [
-                org.donationDrives == null
-                    ? Container()
-                    : DonationDriveListView(org: org),
-                TextButton.icon(
-                  icon: const Icon(Icons.add),
-                  style: TextButton.styleFrom(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                      side: BorderSide(
-                        color: Colors.grey,
-                        width: 2,
-                      ),
-                    ),
-                  ),
-                  onPressed: () {
-                    // MUST PASS ORG OBJ
-                    // MUST BE AN ORGANIZATION TOO
-                    Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (ctx) =>
-                                    CreateDonationDrivePage(org: org)))
-                        .then((value) => setState(() {}));
-                  },
-                  label: const Text("Create New Donation Drive"),
-                )
-              ]) // links ng donation drive
-            ],
-          ),
-        )
-      ],
-    );
+            child: userType == "org"
+                ? OrganizationInfo(org: org!)
+                : DonorInfo(donor: donor!)));
   }
 }

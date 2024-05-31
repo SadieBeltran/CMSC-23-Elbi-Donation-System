@@ -1,5 +1,4 @@
 import 'package:elbi_donation_system/providers/auth_provider.dart';
-import 'package:elbi_donation_system/providers/org_provider.dart';
 import 'package:elbi_donation_system/screens/authentication_screens/sign_in_page.dart';
 import 'package:elbi_donation_system/screens/donor_screens/organization_list_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';

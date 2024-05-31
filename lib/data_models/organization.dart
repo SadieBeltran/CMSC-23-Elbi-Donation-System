@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 // utility object that generates unique id
@@ -13,7 +14,7 @@ class Organization {
   final String proofOfLegitimacy;
   final bool accepted;
   String? description;
-  List<dynamic>? donationDrives;
+  List<DocumentReference>? donationDrives;
   // constructor
   Organization(
       {this.uid,

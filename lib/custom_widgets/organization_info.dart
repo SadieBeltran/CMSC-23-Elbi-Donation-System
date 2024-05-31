@@ -45,11 +45,6 @@ class OrganizationInfo extends StatelessWidget {
                   leading: const Icon(Icons.location_city_outlined));
             }),
           ),
-          //username
-          // ListTile(
-          //   leading: const Icon(Icons.person),
-          //   title: Text(org.organizationName),
-          // ),
           ListTile(
             leading: const Icon(Icons.phone),
             title: Text(org.contactNumber),

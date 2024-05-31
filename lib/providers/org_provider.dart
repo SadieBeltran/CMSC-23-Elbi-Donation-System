@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../api/firebase_org_api.dart';
@@ -39,6 +37,11 @@ class OrgListProvider with ChangeNotifier {
   //   print("successfully fetched orgs");
   //   notifyListeners();
   // }
+
+  Organization getCurrentOrg(String id) {
+    return Organization.fromJson(
+        firebaseService.getOrg(id) as Map<String, dynamic>);
+  }
 
   Future<void> addOrg(Organization organization) async {
     String message = await firebaseService.addOrg(

@@ -87,6 +87,7 @@ class UserAuthProvider with ChangeNotifier {
 
     return null; // If user type is not found
   }
+}
 
   void navigateToHomePage(BuildContext context, String userType) {
     // Implement navigation based on user type
@@ -107,4 +108,3 @@ class UserAuthProvider with ChangeNotifier {
         break;
     }
   }
-}

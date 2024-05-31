@@ -17,9 +17,9 @@ class AppUserProvider with ChangeNotifier {
   }
 
 // https://stackoverflow.com/questions/72565370/querying-for-document-id-with-firestore
-  Future<AppUser> getCurrentUser(String? id) async {
-    DocumentSnapshot doc = await firebaseService.getAppUser(id);
+  AppUser getCurrentUser(String? id) {
     //https://stackoverflow.com/questions/70479637/flutter-firestore-documentsnapshot-to-map
-    return AppUser.fromFirestore(doc);
+    return AppUser.fromJson(
+        firebaseService.getAppUser(id) as Map<String, dynamic>);
   }
 }

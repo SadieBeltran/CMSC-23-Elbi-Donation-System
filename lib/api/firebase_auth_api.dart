@@ -32,6 +32,7 @@ class FirebaseAuthAPI {
     }
   }
 
+  
   Future<void> signUp(String email, String password) async {
     UserCredential credential;
     try {
