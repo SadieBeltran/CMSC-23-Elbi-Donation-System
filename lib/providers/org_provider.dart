@@ -9,26 +9,23 @@ class OrgListProvider with ChangeNotifier {
   late Stream<QuerySnapshot> _approvedOrgStream;
   late Stream<QuerySnapshot> _unapprovedOrgStream;
 
-  OrgListProvider() {
-    // fetchOrgs();
-    fectApprovedOrgs();
-    fectUnapprovedOrgs();
+   OrgListProvider() {
+    fetchApprovedOrgs();
+    fetchUnapprovedOrgs();
   }
 
-  // Stream<QuerySnapshot> get orgs => _orgStream;
   Stream<QuerySnapshot> get approvedOrgs => _approvedOrgStream;
   Stream<QuerySnapshot> get unapproved => _unapprovedOrgStream;
 
-  void fectUnapprovedOrgs() {
-    _unapprovedOrgStream = firebaseService.getUnapprovedOrgs();
-    print(
-        "successfully fetched unapproved orgs ${_unapprovedOrgStream.length}");
+  void fetchApprovedOrgs() {
+    _approvedOrgStream = firebaseService.getApprovedOrgs();
+    print("Fetching approved orgs");
     notifyListeners();
   }
 
-  void fectApprovedOrgs() {
-    _approvedOrgStream = firebaseService.getApprovedOrgs();
-    print("successfully fetched approved orgs ${_approvedOrgStream.length}");
+  void fetchUnapprovedOrgs() {
+    _unapprovedOrgStream = firebaseService.getUnapprovedOrgs();
+    print("Fetching unapproved orgs");
     notifyListeners();
   }
 
