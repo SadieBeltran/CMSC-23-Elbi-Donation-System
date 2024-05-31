@@ -1,5 +1,3 @@
-import 'package:elbi_donation_system/custom_widgets/organization_info.dart';
-import 'package:elbi_donation_system/data_models/organization.dart';
 import 'package:elbi_donation_system/providers/auth_provider.dart';
 import 'package:elbi_donation_system/screens/donor_screens/profile_screen.dart';
 import 'package:flutter/material.dart';

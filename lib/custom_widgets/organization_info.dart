@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:elbi_donation_system/api/firebase_org_api.dart';
 import 'package:elbi_donation_system/data_models/organization.dart';
 import 'package:elbi_donation_system/providers/org_provider.dart';
 import 'package:flutter/material.dart';

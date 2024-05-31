@@ -1,12 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/organizations_list_view_item.dart';
-import 'package:elbi_donation_system/custom_widgets/donor_views/homepage/unapproved_organizations_list_view.dart';
 import 'package:elbi_donation_system/data_models/organization.dart';
 import 'package:elbi_donation_system/providers/auth_provider.dart';
 import 'package:elbi_donation_system/providers/org_provider.dart';
 import 'package:elbi_donation_system/screens/admin_screens/admin_donor_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:async/async.dart' show StreamZip;
 import 'package:provider/provider.dart';
 
 class AdminScreen extends StatefulWidget {

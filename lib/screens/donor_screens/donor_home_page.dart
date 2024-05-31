@@ -16,9 +16,6 @@ class _DonorHomePageState extends State<DonorHomePage> {
   @override
   Widget build(BuildContext context) {
     Stream<User?> userStream = context.watch<UserAuthProvider>().userStream;
-    User? loggedIn = context
-        .read<UserAuthProvider>()
-        .user; //it's read because there can only be one user who access the todo_page
 
     return StreamBuilder(
         stream: userStream,
