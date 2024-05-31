@@ -1,11 +1,12 @@
+import 'package:elbi_donation_system/screens/admin_screens/admin_org_info_screen.dart';
 import 'package:flutter/material.dart';
 // data model
 import 'package:elbi_donation_system/data_models/organization.dart';
 // screens
 import 'package:elbi_donation_system/screens/donor_screens/donate_screen.dart';
 
-class OrganizationsListViewItem extends StatelessWidget {
-  const OrganizationsListViewItem({
+class AdminOrganizationsListViewItem extends StatelessWidget {
+  const AdminOrganizationsListViewItem({
     required this.org,
     super.key,
   });
@@ -15,6 +16,7 @@ class OrganizationsListViewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Entered orglistviewitem");
     return Card(
       margin: const EdgeInsets.all(8),
       shape: RoundedRectangleBorder(
@@ -27,7 +29,7 @@ class OrganizationsListViewItem extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (ctx) => DonateScreen(
+              builder: (ctx) => AdminOrgInfoPage(
                 org: org,
               ),
             ),
@@ -48,6 +50,12 @@ class OrganizationsListViewItem extends StatelessWidget {
             //   ),
             // ),
             // Positioned widget positions a widget on top of another widget in the stack
+            Image.network(
+              org.proofOfLegitimacy,
+              fit: BoxFit.cover,
+              height: 200,
+              width: double.infinity,
+            ),
             Positioned(
               // make the child widget container be positioned in the bottom of the
               // previous widget in the stack, and span left to right

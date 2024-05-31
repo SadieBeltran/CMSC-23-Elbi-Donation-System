@@ -29,6 +29,16 @@ class OrgListProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> acceptOrganization(String id) async {
+    await firebaseService.updateOrganizationStatus(id, true);
+    notifyListeners();
+  }
+
+  Future<void> declineOrganization(String id) async {
+    await firebaseService.updateOrganizationStatus(id, false);
+    notifyListeners();
+  }
+
   // void fetchOrgs() {
   //   _orgStream = firebaseService.getAllOrgs();
   //   print("successfully fetched orgs");

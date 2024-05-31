@@ -4,6 +4,7 @@ import 'package:elbi_donation_system/data_models/organization.dart';
 import 'package:elbi_donation_system/providers/auth_provider.dart';
 import 'package:elbi_donation_system/providers/org_provider.dart';
 import 'package:elbi_donation_system/screens/admin_screens/admin_donor_screen.dart';
+import 'package:elbi_donation_system/screens/admin_screens/admin_organization_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -86,7 +87,7 @@ class _AdminScreenState extends State<AdminScreen> {
               Organization org = Organization.fromJson(
                   snapshot.data?.docs[index].data() as Map<String, dynamic>);
               org.uid = snapshot.data?.docs[index].id;
-              return OrganizationsListViewItem(org: org);
+              return AdminOrganizationsListViewItem(org: org);
             },
           );
         }
